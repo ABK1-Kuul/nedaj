@@ -1,0 +1,1 @@
+//Aggregates info & Map<FuelType, FuelInventory>

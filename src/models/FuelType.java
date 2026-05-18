@@ -1,0 +1,1 @@
+//Enum defining BENZENE, REGULAR, KERO
