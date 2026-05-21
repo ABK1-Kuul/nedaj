@@ -1,4 +1,3 @@
----
 
 # ⛽ Nedaj - Gas Station Management CLI
 
