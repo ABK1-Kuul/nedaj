@@ -1,1 +1,7 @@
-//Enum defining BENZENE, REGULAR, KERO
+package models;
+
+public enum FuelType {
+    BENZENE,
+    REGULAR,
+    KEROSENE
+}
