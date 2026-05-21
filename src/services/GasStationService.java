@@ -1,1 +1,71 @@
-//Holds in-memory lists, mock data, lookup logic
+package services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import models.FuelInventory;
+import models.FuelType;
+import models.GasStation;
+
+public class GasStationService {
+    private final List<GasStation> stations = new ArrayList<>();
+
+    public void seedMockData() {
+        GasStation s1 = new GasStation("ST001", "TotalEnergies Bole", "Bole");
+        s1.addFuelInventory(FuelType.BENZENE, new FuelInventory(90.50, 500, true));
+        s1.addFuelInventory(FuelType.REGULAR, new FuelInventory(85.00, 0, false));
+        s1.addFuelInventory(FuelType.KEROSENE, new FuelInventory(75.00, 200, true));
+
+        GasStation s2 = new GasStation("ST002", "NOC Megenagna", "Megenagna");
+        s2.addFuelInventory(FuelType.BENZENE, new FuelInventory(90.50, 1200, true));
+        s2.addFuelInventory(FuelType.REGULAR, new FuelInventory(85.00, 800, true));
+
+        GasStation s3 = new GasStation("ST003", "TotalEnergies Megenagna", "Megenagna");
+        s3.addFuelInventory(FuelType.BENZENE, new FuelInventory(91.00, 0, false));
+        s3.addFuelInventory(FuelType.KEROSENE, new FuelInventory(74.50, 350, true));
+
+        GasStation s4 = new GasStation("ST004", "NOC Bole", "Bole");
+        s4.addFuelInventory(FuelType.REGULAR, new FuelInventory(84.50, 600, true));
+        s4.addFuelInventory(FuelType.KEROSENE, new FuelInventory(76.00, 150, true));
+
+        stations.add(s1);
+        stations.add(s2);
+        stations.add(s3);
+        stations.add(s4);
+    }
+
+    public List<GasStation> searchFuel(String zone, FuelType fuelType) {
+        List<GasStation> results = new ArrayList<>();
+
+        for (GasStation station : stations) {
+            if (station.getZone().equalsIgnoreCase(zone) && station.hasFuel(fuelType)) {
+                results.add(station);
+            }
+        }
+        return results;
+    }
+
+    public GasStation findStationById(String stationId) {
+        for (GasStation station : stations) {
+            if (station.getId().equalsIgnoreCase(stationId)) {
+                return station;
+            }
+        }
+        return null;
+    }
+
+    public boolean updateInventory(String stationId, FuelType fuelType, double quantity, boolean available) {
+        GasStation station = findStationById(stationId);
+        if (station == null) {
+            return false;
+        }
+
+        FuelInventory fuel = station.getInventory().get(fuelType);
+        if (fuel == null) {
+            return false;
+        }
+
+        station.updateFuelStatus(fuelType, quantity, available);
+        return true;
+    }
+}
