@@ -2,45 +2,27 @@
 
 ## Gas Station Management CLI
 
-A small Java console application for managing fuel station inventory and availability using a command-line interface.
-
-> Note: The current source files in `src/` are mostly placeholder comments and need implementation.
+Java console application for managing fuel station inventory and availability across zones.
 
 ## Project structure
 
-- `src/models/`
-  - `FuelInventory.java` — fuel stock details and availability state
-  - `FuelType.java` — fuel type enumeration
-  - `GasStation.java` — station details and inventory mapping
-- `src/services/`
-  - `GasStationService.java` — inventory data and business logic
-- `src/presentation/`
-  - `ConsoleMenu.java` — console user interaction and menus
-  - `Main.java` — application entry point
+| Layer | Package | Classes |
+|-------|---------|---------|
+| Model | `models` | `FuelType`, `FuelInventory`, `GasStation` |
+| Service | `services` | `GasStationService` |
+| Presentation | `presentation` | `ConsoleMenu`, `Main` |
 
 ## Build and run
 
-This project uses standard Java source files without explicit package declarations.
+```powershell
+javac src/models/*.java src/services/*.java src/presentation/*.java -d bin
+java -cp bin presentation.Main
+```
 
-1. Open a terminal in the project root.
-2. Compile all Java files:
+## Usage
 
-   ```powershell
-   javac src/models/*.java src/services/*.java src/presentation/*.java -d bin
-   ```
+**Driver** — Search by zone and fuel type for stations with available stock.
 
-3. Run the application:
+**Admin** — Enter a station ID, view inventory, update quantity and availability.
 
-   ```powershell
-   java -cp bin presentation.Main
-   ```
-
-## Purpose
-
-The project is intended to provide a CLI-based gas station inventory system where drivers can search available fuel and administrators can update station stock information.
-
-## Notes
-
-- The current repository files are a skeleton with comments only.
-- Implement the CLI logic in `Main.java` and `ConsoleMenu.java`.
-- Add real station data and inventory handling in `GasStationService.java`.
+Sample station IDs: `ST001`, `ST002`, `ST003`, `ST004`. Zones include `Bole` and `Megenagna`.
