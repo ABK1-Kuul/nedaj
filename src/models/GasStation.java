@@ -14,7 +14,7 @@ public class GasStation {
         this.id = id;
         this.name = name;
         this.zone = zone;
-        this.inventory = new HashMap<>;
+        this.inventory = new HashMap<>();
     }
     public String getId(){
         return id;
@@ -31,7 +31,7 @@ public class GasStation {
         return inventory;
     }
 
-    public void addFuelInventory(FuelType, double quantity, double price){
+    public void addFuelInventory(FuelType type, double quantity, double price){
         FuelInventory inv = new FuelInventory(type, quantity, price, quantity > 0);
         inventory.put(type, inv);
     }
@@ -42,7 +42,7 @@ public class GasStation {
     public void sellFuel(FUelType type, double liters){
         FuelInventory inv = inventory.get(type);
         if (inv == null || !inv.isSellable()){
-            throw ew IllegalStatException("Fuel not available");
+            throw new IllegalArgumentException("Fuel not available");
         }
         inv.removeStock(liters);
     }
