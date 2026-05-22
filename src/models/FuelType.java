@@ -42,7 +42,7 @@ public enum FuelType{
         try {
             fromString(input);
             return true;
-        } catch (IllegalArgumentException) {
+        } catch (IllegalArgumentException e) {
             return false;
         }
     }
@@ -56,7 +56,7 @@ public enum FuelType{
     }
     @Override
     public String toString() {
-        return String.format("%s (%.2f ETB/L)", name(), defaultPrice);
+        return String.format("%s (%.2f ETB/L)", name(), defaultPrices);
     }
 }
 
