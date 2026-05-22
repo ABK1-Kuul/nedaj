@@ -128,9 +128,9 @@ Station.hasFuel(BENZENE) checks:
 Return filtered list → ConsoleMenu displays
 ```
 
-## 🔧 Extension Points (For Your "A" Grade)
+## 🔧 Extension Points 
 
-Ready to impress? Add these post-submission:
+ Extension Points:
 
 - **File persistence** - Save inventory to JSON between runs
 - **Admin authentication** - Simple password per station ID
