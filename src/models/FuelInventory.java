@@ -17,6 +17,7 @@ public class FuelInventory {
    }
 
     public FuelType getType() {
+
         return type;
     }
 
@@ -28,6 +29,7 @@ public class FuelInventory {
     }
 
     public double getQuantity() {
+
         return quantity;
     }
 
@@ -42,6 +44,7 @@ public class FuelInventory {
         }
     }
     public double getPricePerLiter(){
+
         return pricePerLiter;
     }
 
@@ -52,7 +55,8 @@ public class FuelInventory {
         this.pricePerLiter = price;
     }
 
-    public boolean isAvailable() {
+    public boolean getIsAvailable() {
+
         return available;
     }
     public void setAvailable(boolean available){
@@ -87,8 +91,8 @@ public class FuelInventory {
                     String.format("Insufficient stock! Available: %2f L, Requested: %2f L", quantity, amount)
             );
         }
-        this quantity -= amount;
-        System.out.printf("Sold %.2f L of %s. Remaining: %.2f L%n", amount, type.name(), quatity );
+        this.quantity -= amount;
+        System.out.printf("Sold %.2f L of %s. Remaining: %.2f L%n", amount, type.name(), quantity );
 
         if (this.quantity == 0){
             this.available = false;
@@ -96,18 +100,20 @@ public class FuelInventory {
         }
    }
    public boolean isSellable(){
+
         return this.available && this.quantity > 0;
    }
-   public double getTotalValur(){
+   public double getTotalValue(){
+
         return  this.quantity * this.pricePerLiter;
    }
 
    public void resetTODefaultPrice(){
-        setPricePerLiter(this.type.getDefaultPrice());
+        setPricePerLiter(this.type.getDefaultPrices());
         System.out.println("Reset price of" + type.name() + "to default: " + pricePerLiter + "ETB/L");
    }
    public String getStatus(){
-        String statusIco = isSellable() ? "Sellable" : (available ? "MAINTENANCE" : "UNAVAILABLE");
+        String statusIcon = isSellable() ? "Sellable" : (available ? "MAINTENANCE" : "UNAVAILABLE");
         return String.format("%s | %.2f L @ %.2f ETB/L | %s",
        type.name(), quantity, pricePerLiter, statusIcon);
    }

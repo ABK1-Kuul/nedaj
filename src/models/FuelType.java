@@ -8,10 +8,12 @@ public enum FuelType{
     private double defaultPrices;
 
     FuelType(double defaultPrices){
+
         this.defaultPrices = defaultPrices;
     }
 
     public double getDefaultPrices(){
+
         return defaultPrices;
     }
 
@@ -42,12 +44,12 @@ public enum FuelType{
         try {
             fromString(input);
             return true;
-        } catch (IllegalArgumentException) {
+        } catch (IllegalArgumentException e) {
             return false;
         }
     }
     public static String getAvailableFuelTypes(){
-        StringBuilder sb = new StrigBuilder("Available Fuel Types:\n");
+        StringBuilder sb = new StringBuilder("Available Fuel Types:\n");
         for (FuelType type : FuelType.values()){
             sb.append(String.format("• %s: %.2f ETB/L\n",
                     type.name(), type.getDefaultPrices()));
@@ -56,8 +58,7 @@ public enum FuelType{
     }
     @Override
     public String toString() {
-        return String.format("%s (%.2f ETB/L)", name(), defaultPrice);
+        return String.format("%s (%.2f ETB/L)", name(), defaultPrices);
     }
 }
 
-}
