@@ -91,7 +91,11 @@ public class FuelInventory {
                     String.format("Insufficient stock! Available: %2f L, Requested: %2f L", quantity, amount)
             );
         }
+<<<<<<< HEAD
         this.quantity -= amount;
+=======
+        this quantity -= amount;
+>>>>>>> 1b623b0a3b2d78e3b9f0f8ef6ab758c3a97684da
         System.out.printf("Sold %.2f L of %s. Remaining: %.2f L%n", amount, type.name(), quantity );
 
         if (this.quantity == 0){
@@ -104,13 +108,21 @@ public class FuelInventory {
         return this.available && this.quantity > 0;
    }
    public double getTotalValue(){
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1b623b0a3b2d78e3b9f0f8ef6ab758c3a97684da
         return  this.quantity * this.pricePerLiter;
    }
 
    public void resetTODefaultPrice(){
+<<<<<<< HEAD
         setPricePerLiter(this.type.getDefaultPrices());
         System.out.println("Reset price of" + type.name() + "to default: " + pricePerLiter + "ETB/L");
+=======
+        setPricePerLiter(this.type.getDefaultPrice());
+        System.out.println("Reset price of" + type.name() + " to default: " + pricePerLiter + "ETB/L");
+>>>>>>> 1b623b0a3b2d78e3b9f0f8ef6ab758c3a97684da
    }
    public String getStatus(){
         String statusIcon = isSellable() ? "Sellable" : (available ? "MAINTENANCE" : "UNAVAILABLE");

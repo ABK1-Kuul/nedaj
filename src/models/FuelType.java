@@ -62,3 +62,7 @@ public enum FuelType{
     }
 }
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 1b623b0a3b2d78e3b9f0f8ef6ab758c3a97684da
