@@ -41,7 +41,7 @@ Ever pulled into a gas station only to find they're out of benzene? Drove 15 min
 
 ```bash
 # Clone & compile
-git clone https://github.com/yourusername/nedaj.git
+git clone https://github.com/ABK1-Kuul/nedaj.git
 cd nedaj
 javac src/models/*.java src/services/*.java src/presentation/*.java -d bin
 
