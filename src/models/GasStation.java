@@ -7,12 +7,16 @@ public class GasStation {
     private String id;
     private String name;
     private String zone;
+    private double x;
+    private double y;
     private Map<FuelType, FuelInventory> inventory;
 
-    public GasStation(String id, String name, String zone) {
+    public GasStation(String id, String name, String zone, double x, double y) {
         this.id = id;
         this.name = name;
         this.zone = zone;
+        this.x = x;
+        this.y = y;
         this.inventory = new HashMap<>();
     }
 
@@ -26,6 +30,14 @@ public class GasStation {
 
     public String getZone() {
         return zone;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public Map<FuelType, FuelInventory> getInventory() {

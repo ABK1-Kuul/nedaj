@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ST001",
+    "name": "TotalEnergies Bole",
+    "zone": "Bole",
+    "x": 12.0,
+    "y": 8.5,
+    "fuels": [
+      {
+        "type": "BENZENE",
+        "quantityLiters": 500,
+        "pricePerLiter": 90.5,
+        "available": "yes"
+      },
+      {
+        "type": "REGULAR",
+        "quantityLiters": 0,
+        "pricePerLiter": 85.0,
+        "available": "no"
+      },
+      {
+        "type": "KEROSENE",
+        "quantityLiters": 200,
+        "pricePerLiter": 75.0,
+        "available": "yes"
+      }
+    ]
+  },
+  {
+    "id": "ST002",
+    "name": "NOC Megenagna",
+    "zone": "Megenagna",
+    "x": 28.0,
+    "y": 15.0,
+    "fuels": [
+      {
+        "type": "BENZENE",
+        "quantityLiters": 1200,
+        "pricePerLiter": 90.5,
+        "available": "yes"
+      },
+      {
+        "type": "REGULAR",
+        "quantityLiters": 800,
+        "pricePerLiter": 85.0,
+        "available": "yes"
+      }
+    ]
+  },
+  {
+    "id": "ST003",
+    "name": "TotalEnergies Megenagna",
+    "zone": "Megenagna",
+    "x": 30.0,
+    "y": 14.0,
+    "fuels": [
+      {
+        "type": "BENZENE",
+        "quantityLiters": 0,
+        "pricePerLiter": 91.0,
+        "available": "no"
+      },
+      {
+        "type": "KEROSENE",
+        "quantityLiters": 350,
+        "pricePerLiter": 74.5,
+        "available": "yes"
+      }
+    ]
+  },
+  {
+    "id": "ST004",
+    "name": "NOC Bole",
+    "zone": "Bole",
+    "x": 14.5,
+    "y": 9.0,
+    "fuels": [
+      {
+        "type": "REGULAR",
+        "quantityLiters": 600,
+        "pricePerLiter": 84.5,
+        "available": "yes"
+      },
+      {
+        "type": "KEROSENE",
+        "quantityLiters": 150,
+        "pricePerLiter": 76.0,
+        "available": "yes"
+      }
+    ]
+  }
+]

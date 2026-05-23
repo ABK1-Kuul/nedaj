@@ -69,10 +69,12 @@ public class ConsoleMenu {
         for (GasStation station : results) {
             FuelInventory fuel = station.getInventory().get(fuelType);
             System.out.printf(
-                "%s | %s | Zone: %s | Price: %.2f ETB/L | Stock: %.0f L%n",
+                "%s | %s | Zone: %s | (%.1f, %.1f) | Price: %.2f ETB/L | Stock: %.0f L%n",
                 station.getId(),
                 station.getName(),
                 station.getZone(),
+                station.getX(),
+                station.getY(),
                 fuel.getPrice(),
                 fuel.getQuantityLiters()
             );
@@ -92,7 +94,13 @@ public class ConsoleMenu {
             return;
         }
 
-        System.out.println("\nStation: " + station.getName() + " (" + station.getZone() + ")");
+        System.out.printf(
+            "%nStation: %s (%s) at (%.1f, %.1f)%n",
+            station.getName(),
+            station.getZone(),
+            station.getX(),
+            station.getY()
+        );
         displayInventory(station);
 
         FuelType fuelType = promptFuelType();

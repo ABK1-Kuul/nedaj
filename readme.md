@@ -1,88 +1,167 @@
-# Nedaj
 
-## Gas Station Management CLI
+# ⛽ Nedaj - Gas Station Management CLI
 
-A Java console application for managing fuel station inventory and availability. The codebase follows a three-layer architecture (Model → Service → Presentation) so you can later swap the CLI for a GUI or web UI without rewriting business logic.
+> *"Never run on empty again"*
 
-## Project structure
+A production-ready Java console application for real-time fuel station inventory management. Built with clean architecture principles so you can swap the CLI for a GUI, web dashboard, or mobile app without touching a single line of business logic.
 
-| Layer | Package | Classes |
-|-------|---------|---------|
-| **Model** | `models` | `FuelType`, `FuelInventory`, `GasStation` |
-| **Service** | `services` | `GasStationService` |
-| **Presentation** | `presentation` | `ConsoleMenu`, `Main` |
+## 🎯 The Problem We're Solving
+
+Ever pulled into a gas station only to find they're out of benzene? Drove 15 minutes for diesel that's "coming tomorrow"? **Nedaj** puts real-time fuel availability in drivers' hands and gives station managers a simple inventory control system.
+
+## 🏗️ Architecture That Scales
 
 ```
-src/
-├── models/
-│   ├── FuelType.java
-│   ├── FuelInventory.java
-│   └── GasStation.java
-├── services/
-│   └── GasStationService.java
-└── presentation/
-    ├── ConsoleMenu.java
-    └── Main.java
+┌─────────────────────────────────────────────┐
+│           PRESENTATION LAYER                │
+│   (ConsoleMenu.java - today)                │
+│   (Swing/JavaFX - tomorrow)                 │
+│   (REST API - next month)                   │
+├─────────────────────────────────────────────┤
+│           SERVICE LAYER                     │
+│   (GasStationService.java)                  │
+│   • Business rules & filtering              │
+│   • Stock validation                        │
+│   • No UI code allowed here →               │
+├─────────────────────────────────────────────┤
+│           MODEL LAYER                       │
+│   (FuelType, FuelInventory, GasStation)     │
+│   • Data structures                         │
+│   • Validation logic                        │
+│   • Pure POJOs                              │
+└─────────────────────────────────────────────┘
 ```
 
-## Build and run
+### Why Three Layers?
+- **Swap CLI for GUI?** Just rewrite `ConsoleMenu` — service stays untouched
+- **Add database?** Only touch service layer
+- **Write unit tests?** Test service in isolation without keyboard input headaches
 
-From the project root:
+## 🚀 Quick Start
 
-```powershell
+```bash
+# Clone & compile
+git clone https://github.com/yourusername/nedaj.git
+cd nedaj
 javac src/models/*.java src/services/*.java src/presentation/*.java -d bin
+
+# Run it
 java -cp bin presentation.Main
 ```
 
-## Features
+## 🎮 Features That Matter
 
-- **Driver menu** — Search stations by zone and fuel type; only stations with available stock are shown.
-- **Admin menu** — Look up a station by ID, view inventory, update quantity and availability.
-- **Mock data** — Four sample stations in Bole and Megenagna (see `GasStationService.seedMockData()`).
+### 👨‍🔧 Driver Experience
+```
+→ Select zone: Bole
+→ Fuel type: BENZENE
+→ Results:
+   📍 Bole Total Station | 95 ETB/L | 1,200 L available
+   📍 Bole Shell       | 97 ETB/L | 850 L available
+```
+**Smart filtering** — Only stations with actual stock appear. No more wasted trips.
 
-### Sample driver flow
+### 👨‍💼 Admin Controls
+```
+→ Station ID: ST001
+→ Update BENZENE:
+   📊 Current: 850 L (AVAILABLE)
+   ✏️ New quantity: 1200
+   🔘 Availability: [YES/NO]
+   ✅ Updated!
+```
 
-1. Main menu → `1` (Driver)
-2. Zone: `Bole`
-3. Fuel: `1` (BENZENE)
-4. View matching stations with price and stock
+### 📦 Station data (`data/stations.json`)
 
-### Sample admin flow
+Gas stations are stored in **`data/stations.json`**. The app loads this file on startup; admin inventory updates are written back automatically.
 
-1. Main menu → `2` (Admin)
-2. Station ID: `ST001`
-3. Choose fuel type and enter new quantity / availability
+Each station record includes:
 
-## 7-day team plan (2 people)
+| Field | Description |
+|-------|-------------|
+| `id` | Station code (e.g. `ST001`) |
+| `name` | Station display name |
+| `zone` | Text area for zone search (`Bole`, `Megenagna`, …) |
+| `x`, `y` | Grid coordinates for future proximity sorting |
+| `fuels[]` | List of fuel lines at that station |
 
-Use this split so you can work in parallel with minimal merge conflicts.
+Each fuel line includes:
 
-| Day | Person A | Person B | Deliverable |
-|-----|----------|----------|-------------|
-| **1** | Review architecture; run app; document class diagram | Same + agree on Git workflow (branch per feature) | Both can compile and run |
-| **2** | Extend `GasStation` / `FuelInventory` (validation, `toString`) | Add more mock stations in `seedMockData()` | Richer test data |
-| **3** | Service: edge cases (`searchFuel` empty zone, null checks) | CLI: input validation polish, clearer error messages | Stable search flow |
-| **4** | Admin: optional price update in service + menu | Driver: show all fuels at a station (optional feature) | Feature complete for assignment |
-| **5** | Unit-style manual test script (scenarios in README) | UML class diagram + flowchart (export from draw.io) | Documentation |
-| **6** | Code review each other's PRs; refactor duplicates | Presentation demo script (2 min walkthrough) | Clean codebase |
-| **7** | Final integration test; fix bugs | Submit report + push to remote | **Done** |
+| Field | Description |
+|-------|-------------|
+| `type` | `BENZENE`, `REGULAR`, or `KEROSENE` |
+| `quantityLiters` | Stock amount in liters |
+| `pricePerLiter` | Price per liter (ETB) |
+| `available` | `"yes"` or `"no"` — whether that fuel line is offered |
 
-### Suggested ownership
+Example fuel entry:
 
-- **Person A:** Model layer + `GasStationService` business rules
-- **Person B:** `ConsoleMenu` + README + diagrams
+```json
+{
+  "type": "BENZENE",
+  "quantityLiters": 500,
+  "pricePerLiter": 90.5,
+  "available": "yes"
+}
+```
 
-Sync daily (15 min): what you merged, what's blocked.
+Run the app from the **project root** so `data/stations.json` resolves correctly.
 
-## Architecture notes
+## 👥 7-Day Team Plan (2 Developers)
 
-- **Separation of concerns:** `ConsoleMenu` only reads input and prints output; `GasStationService` owns all station data and filtering.
-- **`FuelType` enum** prevents invalid fuel strings.
-- **`hasFuel()`** on `GasStation` centralizes “is this fuel sellable?” (available flag + quantity > 0).
+### Daily Sync Schedule (15 min standup)
+- **9:00 AM** - What merged yesterday?
+- **9:10 AM** - What's blocked?
+- **9:15 AM** - Review today's targets
+
+### Day-by-Day Breakdown
+
+| Day | Person A (Model/Service) | Person B (CLI/UX) | Done? |
+|-----|--------------------------|-------------------|-------|
+| **1** | Review architecture, document class relationships | Set up Git (feature branches), run app locally | ✅ |
+| **2** | Add validation to `FuelInventory` (no negative stock) | Create 6 more mock stations (add CMC, Summit zones) | |
+| **3** | Edge cases: null zone handling, fuel not found | Input validation loops, colored console output | |
+| **4** | Service method: update fuel price (admin feature) | Driver "view all fuels at station" feature | |
+| **5** | Write 10 test scenarios in README | UML class diagram + flowchart (Lucidchart/draw.io) | |
+| **6** | Code review Person B's PR, refactor duplicates | Code review Person A's PR, performance check | |
+| **7** | Integration testing, bug fixes | Demo script + screen recording, final push | |
+
+### 🎯 Ownership Strategy
+
+**Person A** (Backend focus)
+- `GasStation.java` - Station data structure
+- `FuelInventory.java` - Stock business rules
+- `GasStationService.java` - All filtering logic
+- Unit test creation
+
+**Person B** (Frontend focus)  
+- `ConsoleMenu.java` - Menu flows & UX
+- `Main.java` - App entry point
+- `README.md` - Documentation & diagrams
+- Input sanitization
+
+**Merge strategy:** Each creates feature branches (`feature/validation`, `feature/ui-polish`), PR to `develop`, then `main` on Day 7.
+
+## 📊 Sample Data Flow
+
+```
+Driver chooses "Bole" + "BENZENE"
+         ↓
+ConsoleMenu calls service.searchFuel("Bole", BENZENE)
+         ↓
+GasStationService loops through stations
+         ↓
+Station.hasFuel(BENZENE) checks:
+   • Fuel exists in inventory?
+   • Available flag = true?
+   • Quantity > 0?
+         ↓
+Return filtered list → ConsoleMenu displays
+```
 
 ## Search logic: zones vs proximity
 
-The driver search flow today filters by **text zone** (e.g. `Bole`, `Megenagna`) and fuel type, then lists matching stations. An optional enhancement is to represent locations on a simple **grid** with coordinates \((x, y)\) instead of (or in addition to) zone names.
+The driver search flow today filters by **text zone** (e.g. `Bole`, `Megenagna`) and fuel type, then lists matching stations. Each station also has grid coordinates \((x, y)\) in `data/stations.json` for proximity sorting (not wired in the CLI yet).
 
 ### Euclidean distance
 
@@ -103,9 +182,38 @@ After filtering to stations that have the requested fuel in stock, the service (
 
 Zone-based search can remain as a simpler mode; grid coordinates are an alternative when you want **proximity ordering** rather than only a named area match.
 
-## Next steps (optional enhancements)
+## 🔧 Extension Points
 
-- **Proximity search** — Add \((x, y)\) to `GasStation`, prompt for driver coordinates in the CLI, sort search results by Euclidean distance (see [Search logic: zones vs proximity](#search-logic-zones-vs-proximity))
-- Persist stations to a file or database
-- Admin login / station ID password
-- Add zones via admin instead of hard-coded mock data
+- **Proximity search** — Prompt for driver \((x, y)\) in the CLI and sort results by Euclidean distance (coordinates are already in JSON; see [Search logic: zones vs proximity](#search-logic-zones-vs-proximity))
+- **Admin authentication** — Simple password per station ID
+- **Add new zones** — Admin menu option (no hardcoding)
+- **Low stock alerts** — Notify when benzene < 500L
+- **Sales tracking** — Log every sale for reporting
+
+## 🐛 Known Limitations
+
+- Station list is edited manually in JSON (no admin UI to add new stations yet)
+- No multi-threading for concurrent admin edits
+- Zone list is hardcoded (Bole, Megenagna)
+
+## 🏆 Success Criteria
+
+By Day 7, your app should:
+1. Compile with `javac` without warnings
+2. Handle edge cases (null inputs, invalid IDs)
+3. Pass all 10 manual test scenarios
+4. Let drivers find fuel in under 10 seconds
+5. Let admins update stock in under 15 seconds
+
+## 🤝 Contributing
+
+This is a pair programming project. Rules:
+- No silent coding — screen share if remote
+- Every commit message follows: `type: description` (`feat:`, `fix:`, `docs:`, `test:`)
+- No merging without the other person's approval
+
+---
+
+*Java Project - Spring 2026*
+
+*"The best time to check fuel availability is before you leave, not after you arrive."*
