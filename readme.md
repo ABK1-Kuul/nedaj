@@ -83,6 +83,7 @@ Each station record includes:
 | `name` | Station display name |
 | `zone` | Text area for zone search (`Bole`, `Megenagna`, …) |
 | `x`, `y` | Grid coordinates for future proximity sorting |
+| `hasLine` | `"yes"` or `"no"` — whether the station has a line to get gas |
 | `fuels[]` | List of fuel lines at that station |
 
 Each fuel line includes:
@@ -92,7 +93,23 @@ Each fuel line includes:
 | `type` | `BENZENE`, `REGULAR`, or `KEROSENE` |
 | `quantityLiters` | Stock amount in liters |
 | `pricePerLiter` | Price per liter (ETB) |
-| `available` | `"yes"` or `"no"` — whether that fuel line is offered |
+| `available` | `"yes"` or `"no"` — whether that fuel type is offered at the station |
+
+`hasLine` is per **station** (can customers queue for fuel?). `available` is per **fuel type** (is that product sold right now?).
+
+Example station fields:
+
+```json
+{
+  "id": "ST001",
+  "name": "TotalEnergies Bole",
+  "zone": "Bole",
+  "x": 12.0,
+  "y": 8.5,
+  "hasLine": "yes",
+  "fuels": [ ... ]
+}
+```
 
 Example fuel entry:
 

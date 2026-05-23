@@ -69,12 +69,13 @@ public class ConsoleMenu {
         for (GasStation station : results) {
             FuelInventory fuel = station.getInventory().get(fuelType);
             System.out.printf(
-                "%s | %s | Zone: %s | (%.1f, %.1f) | Price: %.2f ETB/L | Stock: %.0f L%n",
+                "%s | %s | Zone: %s | (%.1f, %.1f) | Line: %s | Price: %.2f ETB/L | Stock: %.0f L%n",
                 station.getId(),
                 station.getName(),
                 station.getZone(),
                 station.getX(),
                 station.getY(),
+                station.hasLine() ? "Yes" : "No",
                 fuel.getPrice(),
                 fuel.getQuantityLiters()
             );
@@ -95,11 +96,12 @@ public class ConsoleMenu {
         }
 
         System.out.printf(
-            "%nStation: %s (%s) at (%.1f, %.1f)%n",
+            "%nStation: %s (%s) at (%.1f, %.1f) | Line to get gas: %s%n",
             station.getName(),
             station.getZone(),
             station.getX(),
-            station.getY()
+            station.getY(),
+            station.hasLine() ? "Yes" : "No"
         );
         displayInventory(station);
 

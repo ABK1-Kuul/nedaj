@@ -78,7 +78,9 @@ public class GasStationService {
         List<GasStation> results = new ArrayList<>();
 
         for (GasStation station : stations) {
-            if (station.getZone().equalsIgnoreCase(zone) && station.hasFuel(fuelType)) {
+            if (station.getZone().equalsIgnoreCase(zone)
+                    && station.hasLine()
+                    && station.hasFuel(fuelType)) {
                 results.add(station);
             }
         }
