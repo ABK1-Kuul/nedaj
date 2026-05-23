@@ -80,8 +80,32 @@ Sync daily (15 min): what you merged, what's blocked.
 - **`FuelType` enum** prevents invalid fuel strings.
 - **`hasFuel()`** on `GasStation` centralizes “is this fuel sellable?” (available flag + quantity > 0).
 
+## Search logic: zones vs proximity
+
+The driver search flow today filters by **text zone** (e.g. `Bole`, `Megenagna`) and fuel type, then lists matching stations. An optional enhancement is to represent locations on a simple **grid** with coordinates \((x, y)\) instead of (or in addition to) zone names.
+
+### Euclidean distance
+
+If a driver is at \((x_1, y_1)\) and a gas station is at \((x_2, y_2)\), the straight-line distance is:
+
+\[
+d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
+\]
+
+After filtering to stations that have the requested fuel in stock, the service (or presentation layer) can **sort results by \(d\) in ascending order** so the nearest stations appear first.
+
+### Intended behavior (not implemented yet)
+
+1. Driver enters their position \((x_1, y_1)\) (and fuel type as today).
+2. Collect all stations with available stock for that fuel.
+3. For each station with coordinates \((x_2, y_2)\), compute \(d\) using the formula above.
+4. Return or display the list sorted by \(d\) from smallest to largest.
+
+Zone-based search can remain as a simpler mode; grid coordinates are an alternative when you want **proximity ordering** rather than only a named area match.
+
 ## Next steps (optional enhancements)
 
+- **Proximity search** — Add \((x, y)\) to `GasStation`, prompt for driver coordinates in the CLI, sort search results by Euclidean distance (see [Search logic: zones vs proximity](#search-logic-zones-vs-proximity))
 - Persist stations to a file or database
 - Admin login / station ID password
 - Add zones via admin instead of hard-coded mock data
