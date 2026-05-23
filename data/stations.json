@@ -5,6 +5,7 @@
     "zone": "Bole",
     "x": 12.0,
     "y": 8.5,
+    "hasLine": "yes",
     "fuels": [
       {
         "type": "BENZENE",
@@ -32,6 +33,7 @@
     "zone": "Megenagna",
     "x": 28.0,
     "y": 15.0,
+    "hasLine": "yes",
     "fuels": [
       {
         "type": "BENZENE",
@@ -53,6 +55,7 @@
     "zone": "Megenagna",
     "x": 30.0,
     "y": 14.0,
+    "hasLine": "no",
     "fuels": [
       {
         "type": "BENZENE",
@@ -74,6 +77,7 @@
     "zone": "Bole",
     "x": 14.5,
     "y": 9.0,
+    "hasLine": "yes",
     "fuels": [
       {
         "type": "REGULAR",

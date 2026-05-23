@@ -9,14 +9,16 @@ public class GasStation {
     private String zone;
     private double x;
     private double y;
+    private boolean hasLine;
     private Map<FuelType, FuelInventory> inventory;
 
-    public GasStation(String id, String name, String zone, double x, double y) {
+    public GasStation(String id, String name, String zone, double x, double y, boolean hasLine) {
         this.id = id;
         this.name = name;
         this.zone = zone;
         this.x = x;
         this.y = y;
+        this.hasLine = hasLine;
         this.inventory = new HashMap<>();
     }
 
@@ -38,6 +40,15 @@ public class GasStation {
 
     public double getY() {
         return y;
+    }
+
+    /** Whether this station currently has a line to get fuel. */
+    public boolean hasLine() {
+        return hasLine;
+    }
+
+    public void setHasLine(boolean hasLine) {
+        this.hasLine = hasLine;
     }
 
     public Map<FuelType, FuelInventory> getInventory() {

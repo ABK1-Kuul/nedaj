@@ -37,8 +37,9 @@ public final class StationJsonStore {
             String zone = requireString(block, "zone");
             double x = requireNumber(block, "x");
             double y = requireNumber(block, "y");
+            boolean hasLine = parseYesNo(requireString(block, "hasLine"));
 
-            GasStation station = new GasStation(id, name, zone, x, y);
+            GasStation station = new GasStation(id, name, zone, x, y, hasLine);
             String fuelsArray = extractArrayContent(block, "fuels");
             for (String fuelBlock : splitTopLevelObjects(fuelsArray)) {
                 FuelType type = FuelType.valueOf(requireString(fuelBlock, "type"));
@@ -70,6 +71,9 @@ public final class StationJsonStore {
             sb.append("    \"zone\": ").append(jsonString(station.getZone())).append(",\n");
             sb.append("    \"x\": ").append(station.getX()).append(",\n");
             sb.append("    \"y\": ").append(station.getY()).append(",\n");
+            sb.append("    \"hasLine\": ")
+                    .append(jsonString(station.hasLine() ? "yes" : "no"))
+                    .append(",\n");
             sb.append("    \"fuels\": [\n");
 
             int fuelIndex = 0;
