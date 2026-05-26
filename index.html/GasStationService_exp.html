@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 GasStationService.java | Complete Line-by-Line Explanation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #0a0f1e 0%, #0d1525 100%);
+            padding: 40px 24px;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a1a3e 0%, #0f0f2a 100%);
+            border-radius: 28px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd89b, #c7e9fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        
+        .hero-sub {
+            color: #8892b0;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 12px 24px;
+            border-left: 3px solid #ffd89b;
+        }
+        
+        .stat-num {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffd89b;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 12px 20px;
+            background: rgba(15, 25, 45, 0.6);
+            border-radius: 60px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav a {
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #94a3b8;
+            background: rgba(255,255,255,0.02);
+            transition: all 0.2s;
+        }
+        
+        .nav a:hover {
+            background: #ffd89b20;
+            color: #ffd89b;
+        }
+        
+        /* Code Sections */
+        .section {
+            background: #0a0e1a;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .section-header {
+            background: #0f1422;
+            padding: 16px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .section-header:hover {
+            background: #141a2a;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-badge {
+            background: #ffd89b20;
+            color: #ffd89b;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+        }
+        
+        .toggle {
+            color: #ffd89b;
+        }
+        
+        /* Code Display */
+        .code-content {
+            display: none;
+            padding: 20px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+        
+        .code-content.active {
+            display: block;
+        }
+        
+        .code-line {
+            display: flex;
+            padding: 2px 0;
+            border-left: 3px solid transparent;
+        }
+        
+        .code-line:hover {
+            background: rgba(255,255,255,0.02);
+            border-left-color: #ffd89b;
+        }
+        
+        .line-num {
+            width: 55px;
+            text-align: right;
+            color: #4a5568;
+            user-select: none;
+            padding-right: 20px;
+            font-size: 11px;
+        }
+        
+        .line-text {
+            flex: 1;
+            white-space: pre;
+        }
+        
+        /* Syntax */
+        .kw { color: #c792ea; font-weight: 500; }
+        .type { color: #82aaff; }
+        .str { color: #c3e88d; }
+        .cmt { color: #546e7a; font-style: italic; }
+        .num { color: #f78c6c; }
+        .bool { color: #ffcb6b; }
+        
+        /* Explanations */
+        .explanation-content {
+            display: none;
+            background: #0d1220;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 24px;
+        }
+        
+        .explanation-content.active {
+            display: block;
+        }
+        
+        .exp-card {
+            background: linear-gradient(135deg, #0f1424 0%, #0a0e1a 100%);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        .exp-card h4 {
+            color: #ffd89b;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        
+        .exp-card p {
+            color: #94a3b8;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .tag {
+            background: rgba(255,216,155,0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #ffd89b;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #4a5568;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .code-line { flex-wrap: wrap; }
+            .line-num { width: 100%; text-align: left; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Hero -->
+    <div class="hero">
+        <h1>GasStationService.java</h1>
+        <div class="hero-sub">Service Layer | Business Logic | Method Overloading Demonstration</div>
+        <div class="stats">
+            <div class="stat"><div class="stat-num">280+</div><div class="stat-label">LINES OF CODE</div></div>
+            <div class="stat"><div class="stat-num">6</div><div class="stat-label">SEARCH OVERLOADS</div></div>
+            <div class="stat"><div class="stat-num">4</div><div class="stat-label">STATIONS MOCKED</div></div>
+            <div class="stat"><div class="stat-num">12</div><div class="stat-label">PUBLIC METHODS</div></div>
+        </div>
+    </div>
+    
+    <!-- Nav -->
+    <div class="nav">
+        <a href="#" onclick="scrollToSec('sec-pkg')">📦 Package</a>
+        <a href="#" onclick="scrollToSec('sec-imp')">📚 Imports</a>
+        <a href="#" onclick="scrollToSec('sec-class')">🏗️ Class</a>
+        <a href="#" onclick="scrollToSec('sec-mock')">🎲 Mock Data</a>
+        <a href="#" onclick="scrollToSec('sec-search')">🔍 Search (6x)</a>
+        <a href="#" onclick="scrollToSec('sec-mgmt')">🏪 Station Mgmt</a>
+        <a href="#" onclick="scrollToSec('sec-inv')">📦 Inventory (4x)</a>
+        <a href="#" onclick="scrollToSec('sec-stats')">📊 Statistics</a>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 1: PACKAGE -->
+    <!-- ============================================================ -->
+    <div id="sec-pkg" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>📦</span> Package Declaration</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">1</span><span class="line-text"><span class="cmt">//Holds in-memory lists, mock data, lookup logic</span></span></div>
+            <div class="code-line"><span class="line-num">2</span><span class="line-text"><span class="kw">package</span> services;</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📌 Line 1: Comment</h4>
+                <p>Documents the three responsibilities of this class: storing data in memory, providing test data (mock), and handling all search/lookup operations.</p>
+                <div class="tags"><span class="tag">📝 Documentation</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Line 2: <code>package services;</code></h4>
+                <p><strong>What it does:</strong> Places this class in the 'services' package - the business logic layer of the 3-tier architecture.</p>
+                <p><strong>Why important:</strong> Separates concerns. The UI (ConsoleMenu) calls methods here, which then manipulate Model objects. This allows swapping CLI for GUI without changing business logic.</p>
+                <p><strong>Architecture Flow:</strong> Presentation Layer → Service Layer → Model Layer</p>
+                <div class="tags"><span class="tag">🏗️ 3-Layer Architecture</span><span class="tag">📦 Package Organization</span><span class="tag">🔗 Separation of Concerns</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 2: IMPORTS -->
+    <!-- ============================================================ -->
+    <div id="sec-imp" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>📚</span> Import Statements</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">4</span><span class="line-text"><span class="kw">import</span> java.util.ArrayList;</span></div>
+            <div class="code-line"><span class="line-num">5</span><span class="line-text"><span class="kw">import</span> java.util.Comparator;</span></div>
+            <div class="code-line"><span class="line-num">6</span><span class="line-text"><span class="kw">import</span> java.util.List;</span></div>
+            <div class="code-line"><span class="line-num">7</span><span class="line-text"><span class="kw">import</span> java.util.stream.Collectors;</span></div>
+            <div class="code-line"><span class="line-num">9</span><span class="line-text"><span class="kw">import</span> models.FuelInventory;</span></div>
+            <div class="code-line"><span class="line-num">10</span><span class="line-text"><span class="kw">import</span> models.FuelType;</span></div>
+            <div class="code-line"><span class="line-num">11</span><span class="line-text"><span class="kw">import</span> models.GasStation;</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📌 Lines 4-7: Java Utility Imports</h4>
+                <p><strong>ArrayList:</strong> Dynamic array implementation - automatically grows when stations are added. Used to store the station list.</p>
+                <p><strong>Comparator:</strong> Functional interface that defines custom sorting logic. Used in <code>searchFuelSortedbyPrice()</code> to sort stations by fuel price.</p>
+                <p><strong>List:</strong> Interface for ordered collections. All search methods return <code>List&lt;GasStation&gt;</code> for flexibility.</p>
+                <p><strong>Collectors:</strong> Terminal operations for Stream API. Used in <code>getAllZones()</code> to collect distinct zone names.</p>
+                <div class="tags"><span class="tag">📊 Collections Framework</span><span class="tag">🔄 Stream API</span><span class="tag">📐 Comparator Pattern</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Lines 9-11: Model Layer Imports</h4>
+                <p><strong>Why import these:</strong> Service layer DEPENDS on the Model layer - this is correct dependency direction (Service → Model). The service manipulates and returns these model objects.</p>
+                <p><strong>FuelInventory:</strong> Represents a single fuel type's stock at a station.</p>
+                <p><strong>FuelType:</strong> Enum defining BENZENE, DIESEL, KEROSENE.</p>
+                <p><strong>GasStation:</strong> Main entity containing station info and inventory map.</p>
+                <div class="tags"><span class="tag">🔗 Dependency Direction</span><span class="tag">🏛️ Model Import</span><span class="tag">🎯 Business Objects</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 3: CLASS DECLARATION -->
+    <!-- ============================================================ -->
+    <div id="sec-class" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>🏗️</span> Class Declaration & Field</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">13</span><span class="line-text"><span class="kw">public class</span> <span class="type">GasStationService</span> {</span></div>
+            <div class="code-line"><span class="line-num">14</span><span class="line-text">    <span class="kw">private final</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; stations = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📌 Line 13: <code>public class GasStationService</code></h4>
+                <p><strong>Access modifier:</strong> <code>public</code> - this class can be accessed from any other package (like <code>presentation.ConsoleMenu</code>).</p>
+                <p><strong>Class role:</strong> This is the BUSINESS LOGIC LAYER. All data operations, search algorithms, and inventory updates go through here. The UI never directly touches the station list.</p>
+                <div class="tags"><span class="tag">🔓 Public Access</span><span class="tag">🎯 Service Layer Pattern</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Line 14: <code>private final List&lt;GasStation&gt; stations</code></h4>
+                <p><strong>private:</strong> ENCAPSULATION - no external class can directly access or modify the station list. All access must go through public methods.</p>
+                <p><strong>final:</strong> The reference variable cannot be reassigned to a different List object. However, the list CONTENTS can be modified (add/remove stations).</p>
+                <p><strong>List&lt;GasStation&gt;:</strong> Generic collection storing GasStation objects. Using the List interface (not ArrayList directly) allows changing implementation later.</p>
+                <p><strong>Initialization:</strong> <code>new ArrayList&lt;&gt;()</code> creates an empty dynamic array ready to hold stations.</p>
+                <div class="tags"><span class="tag">🔒 Encapsulation</span><span class="tag">📊 In-Memory Database</span><span class="tag">🔐 Data Hiding</span><span class="tag">🎯 Generic Type</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 4: MOCK DATA -->
+    <!-- ============================================================ -->
+    <div id="sec-mock" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>🎲</span> Mock Data - 4 Stations with Inventory</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">16</span><span class="line-text">    <span class="kw">public void</span> seedMockData(){</span></div>
+            <div class="code-line"><span class="line-num">17</span><span class="line-text">        <span class="type">GasStation</span> s1 = <span class="kw">new</span> <span class="type">GasStation</span>(<span class="str">"ST001"</span>, <span class="str">"TotalEnergies Bole"</span>, <span class="str">"Bole"</span>);</span></div>
+            <div class="code-line"><span class="line-num">18</span><span class="line-text">        s1.addFuelInventory(<span class="type">FuelType</span>.BENZENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">500</span>, <span class="num">170</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">19</span><span class="line-text">        s1.addFuelInventory(<span class="type">FuelType</span>.DIESEL, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">0</span>, <span class="num">171</span>, <span class="bool">false</span>));</span></div>
+            <div class="code-line"><span class="line-num">20</span><span class="line-text">        s1.addFuelInventory(<span class="type">FuelType</span>.KEROSENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">500</span>, <span class="num">350</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">22</span><span class="line-text">        <span class="type">GasStation</span> s2 = <span class="kw">new</span> <span class="type">GasStation</span>(<span class="str">"ST002"</span>, <span class="str">"NOC Megenagna"</span>, <span class="str">"Megnagna"</span>);</span></div>
+            <div class="code-line"><span class="line-num">23</span><span class="line-text">        s2.addFuelInventory(<span class="type">FuelType</span>.BENZENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">2000</span>, <span class="num">168</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">24</span><span class="line-text">        s2.addFuelInventory(<span class="type">FuelType</span>.DIESEL, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">3000</span>, <span class="num">190</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">25</span><span class="line-text">        s2.addFuelInventory(<span class="type">FuelType</span>.KEROSENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">0</span>, <span class="num">321</span>, <span class="bool">false</span>));</span></div>
+            <div class="code-line"><span class="line-num">27</span><span class="line-text">        <span class="type">GasStation</span> s3 = <span class="kw">new</span> <span class="type">GasStation</span>(<span class="str">"ST003"</span>,<span class="str">"OLA Megenagna"</span>,<span class="str">"Megenagna"</span>);</span></div>
+            <div class="code-line"><span class="line-num">28</span><span class="line-text">        s3.addFuelInventory(<span class="type">FuelType</span>.BENZENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">800</span>, <span class="num">169</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">29</span><span class="line-text">        s3.addFuelInventory(<span class="type">FuelType</span>.DIESEL, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">900</span>, <span class="num">187</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">30</span><span class="line-text">        s3.addFuelInventory(<span class="type">FuelType</span>.KEROSENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">1000</span>, <span class="num">345</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">32</span><span class="line-text">        <span class="type">GasStation</span> s4 = <span class="kw">new</span> <span class="type">GasStation</span>(<span class="str">"ST004"</span>,<span class="str">"NOC Summit"</span>, <span class="str">"Summit"</span>);</span></div>
+            <div class="code-line"><span class="line-num">33</span><span class="line-text">        s4.addFuelInventory(<span class="type">FuelType</span>.BENZENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">400</span>, <span class="num">169</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">34</span><span class="line-text">        s4.addFuelInventory(<span class="type">FuelType</span>.DIESEL, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">500</span>, <span class="num">190</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">35</span><span class="line-text">        s4.addFuelInventory(<span class="type">FuelType</span>.KEROSENE, <span class="kw">new</span> <span class="type">FuelInventory</span>(<span class="num">300</span>, <span class="num">325</span>, <span class="bool">true</span>));</span></div>
+            <div class="code-line"><span class="line-num">37</span><span class="line-text">        stations.add(s1);</span></div>
+            <div class="code-line"><span class="line-num">38</span><span class="line-text">        stations.add(s2);</span></div>
+            <div class="code-line"><span class="line-num">39</span><span class="line-text">        stations.add(s3);</span></div>
+            <div class="code-line"><span class="line-num">40</span><span class="line-text">        stations.add(s4);</span></div>
+            <div class="code-line"><span class="line-num">41</span><span class="line-text">    }</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📌 Line 16: <code>public void seedMockData()</code></h4>
+                <p><strong>Purpose:</strong> Populates the service with test data so the application has something to display. Called once at startup (usually in Main.java).</p>
+                <p><strong>Return type:</strong> <code>void</code> - no return value, just adds data to the internal stations list.</p>
+                <div class="tags"><span class="tag">🎲 Test Data Generation</span><span class="tag">🔄 Initialization Method</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Lines 17-20: Station 1 - TotalEnergies Bole (ST001)</h4>
+                <p><strong>BENZENE:</strong> 500 liters @ 170 ETB - Available ✓ (tests normal stock)</p>
+                <p><strong>DIESEL:</strong> 0 liters @ 171 ETB - Unavailable ✗ (tests edge case - zero stock)</p>
+                <p><strong>KEROSENE:</strong> 500 liters @ 350 ETB - Available ✓</p>
+                <p><strong>Zone:</strong> Bole</p>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Lines 22-25: Station 2 - NOC Megenagna (ST002)</h4>
+                <p><strong>BENZENE:</strong> 2000 liters @ 168 ETB - Large stock ✓</p>
+                <p><strong>DIESEL:</strong> 3000 liters @ 190 ETB - Largest stock among all stations ✓</p>
+                <p><strong>KEROSENE:</strong> 0 liters @ 321 ETB - Unavailable ✗</p>
+                <p><strong>Zone:</strong> Megnagna (note: slight spelling difference from "Megenagna")</p>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Lines 27-30: Station 3 - OLA Megenagna (ST003)</h4>
+                <p><strong>BENZENE:</strong> 800 liters @ 169 ETB ✓</p>
+                <p><strong>DIESEL:</strong> 900 liters @ 187 ETB ✓</p>
+                <p><strong>KEROSENE:</strong> 1000 liters @ 345 ETB ✓</p>
+                <p><strong>Note:</strong> This station has ALL THREE fuels available - good for comprehensive testing.</p>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Lines 32-35: Station 4 - NOC Summit (ST004)</h4>
+                <p><strong>BENZENE:</strong> 400 liters @ 169 ETB ✓</p>
+                <p><strong>DIESEL:</strong> 500 liters @ 190 ETB ✓</p>
+                <p><strong>KEROSENE:</strong> 300 liters @ 325 ETB ✓</p>
+                <p><strong>Zone:</strong> Summit (unique zone - only this station)</p>
+            </div>
+            <div class="exp-card">
+                <h4>📌 Lines 37-40: Adding to List</h4>
+                <p>All four stations are added to the private <code>stations</code> list. Now they can be searched and managed.</p>
+                <div class="tags"><span class="tag">📊 Data Population</span><span class="tag">🏗️ Object Composition</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 5: SEARCH METHODS - 6 OVERLOADS -->
+    <!-- ============================================================ -->
+    <div id="sec-search" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>🔍</span> OVERLOADED SEARCH METHODS - 6 Versions (Polymorphism)</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">44</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; searchFuel(<span class="type">String</span> zone){</span></div>
+            <div class="code-line"><span class="line-num">45</span><span class="line-text">        <span class="kw">if</span> (zone == <span class="kw">null</span> || zone.trim().isEmpty()){</span></div>
+            <div class="code-line"><span class="line-num">46</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Zone cannot be null or empty"</span>);</span></div>
+            <div class="code-line"><span class="line-num">47</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">48</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+            <div class="code-line"><span class="line-num">49</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">50</span><span class="line-text">            <span class="kw">if</span> (station.getZone().equalsIgnoreCase(zone.trim())){</span></div>
+            <div class="line-text">                results.add(station);</div>
+            <div class="code-line"><span class="line-num">52</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">53</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">54</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">55</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">57</span><span class="line-text">    <span class="cmt">// METHOD OVERLOADING by zone and fuel type</span></span></div>
+            <div class="code-line"><span class="line-num">58</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; searchFuel(<span class="type">String</span> zone, <span class="type">FuelType</span> fuelType){</span></div>
+            <div class="code-line"><span class="line-num">59</span><span class="line-text">        <span class="kw">if</span> (zone == <span class="kw">null</span> || zone.trim().isEmpty()){</span></div>
+            <div class="code-line"><span class="line-num">60</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Zone cannot be null or empty"</span>);</span></div>
+            <div class="code-line"><span class="line-num">61</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">62</span><span class="line-text">        <span class="kw">if</span> (fuelType == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">63</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Fuel type cannot be null"</span>);</span></div>
+            <div class="code-line"><span class="line-num">64</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">65</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+            <div class="code-line"><span class="line-num">66</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">67</span><span class="line-text">            <span class="kw">if</span> (station.getZone().equalsIgnoreCase(zone.trim()) && station.hasFuel(fuelType)){</span></div>
+            <div class="line-text">                results.add(station);</div>
+            <div class="code-line"><span class="line-num">69</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">70</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">71</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">72</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">74</span><span class="line-text">    <span class="cmt">// METHOD OVERLOADING: Search by price range</span></span></div>
+            <div class="code-line"><span class="line-num">75</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; searchFuel(<span class="type">FuelType</span> fuelType, <span class="kw">double</span> minPrice, <span class="kw">double</span> maxPrice) {</span></div>
+            <div class="code-line"><span class="line-num">76</span><span class="line-text">        <span class="kw">if</span> (fuelType == <span class="kw">null</span>) {</span></div>
+            <div class="code-line"><span class="line-num">77</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Fuel type cannot be null"</span>);</span></div>
+            <div class="code-line"><span class="line-num">78</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">79</span><span class="line-text">        <span class="kw">if</span> (minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {</span></div>
+            <div class="code-line"><span class="line-num">80</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Invalid price range"</span>);</span></div>
+            <div class="code-line"><span class="line-num">81</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">82</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+            <div class="code-line"><span class="line-num">83</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations) {</span></div>
+            <div class="code-line"><span class="line-num">84</span><span class="line-text">            <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">85</span><span class="line-text">            <span class="kw">if</span> (fuel != <span class="kw">null</span> && fuel.isSellable()) {</span></div>
+            <div class="code-line"><span class="line-num">86</span><span class="line-text">                <span class="kw">double</span> price = fuel.getPricePerLiter();</span></div>
+            <div class="code-line"><span class="line-num">87</span><span class="line-text">                <span class="kw">if</span> (price >= minPrice && price <= maxPrice) {</span></div>
+            <div class="line-text">                    results.add(station);</div>
+            <div class="code-line"><span class="line-num">89</span><span class="line-text">                }</span></div>
+            <div class="code-line"><span class="line-num">90</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">91</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">92</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">93</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">95</span><span class="line-text">    <span class="cmt">// METHOD OVERLOADING: Search by minimum quantity only</span></span></div>
+            <div class="code-line"><span class="line-num">96</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; searchFuel(<span class="type">FuelType</span> fuelType, <span class="kw">double</span> minQuantity){</span></div>
+            <div class="code-line"><span class="line-num">97</span><span class="line-text">        <span class="kw">if</span> (fuelType == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">98</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Fuel type cannot be null"</span>);</span></div>
+            <div class="code-line"><span class="line-num">99</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">100</span><span class="line-text">        <span class="kw">if</span> (minQuantity < 0){</span></div>
+            <div class="code-line"><span class="line-num">101</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Minimum quantity cannot be negative"</span>);</span></div>
+            <div class="code-line"><span class="line-num">102</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">103</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+            <div class="code-line"><span class="line-num">104</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">105</span><span class="line-text">            <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">106</span><span class="line-text">            <span class="kw">if</span> (fuel != <span class="kw">null</span> && fuel.isAvailable() && fuel.getQuantity() >= minQuantity){</span></div>
+            <div class="line-text">                results.add(station);</div>
+            <div class="code-line"><span class="line-num">108</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">109</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">110</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">111</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">113</span><span class="line-text">    <span class="cmt">// METHOD OVERLOADING Search by zone and price (sorted)</span></span></div>
+            <div class="code-line"><span class="line-num">114</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; searchFuelSortedbyPrice(<span class="type">String</span> zone, <span class="type">FuelType</span> fuelType) {</span></div>
+            <div class="code-line"><span class="line-num">115</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = searchFuel(zone, fuelType);</span></div>
+            <div class="code-line"><span class="line-num">117</span><span class="line-text">        results.sort(<span class="type">Comparator</span>.comparingDouble(station -> {</span></div>
+            <div class="code-line"><span class="line-num">118</span><span class="line-text">            <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">119</span><span class="line-text">            <span class="kw">return</span> fuel != <span class="kw">null</span> ? fuel.getPricePerLiter() : <span class="type">Double</span>.MAX_VALUE;</span></div>
+            <div class="code-line"><span class="line-num">120</span><span class="line-text">        }));</span></div>
+            <div class="code-line"><span class="line-num">122</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">123</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">125</span><span class="line-text">    <span class="cmt">// METHOD OVERLOADING: Get all stations with any available fuel</span></span></div>
+            <div class="code-line"><span class="line-num">126</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; searchFuel(){</span></div>
+            <div class="code-line"><span class="line-num">127</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+            <div class="code-line"><span class="line-num">128</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">129</span><span class="line-text">            <span class="kw">if</span> (station.hasAnyFuel()){</span></div>
+            <div class="line-text">                results.add(station);</div>
+            <div class="code-line"><span class="line-num">131</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">132</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">133</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">134</span><span class="line-text">    }</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>🎯 Overload #1: <code>searchFuel(String zone)</code></h4>
+                <p><strong>Parameters:</strong> zone name (String) only.</p>
+                <p><strong>Returns:</strong> All stations in that zone, regardless of fuel type.</p>
+                <p><strong>Validation:</strong> Lines 45-46 check for null or empty zone and throw exception.</p>
+                <p><strong>Case-insensitive:</strong> Uses <code>.equalsIgnoreCase()</code> so "bole", "BOLE", "Bole" all work.</p>
+                <p><strong>Use case:</strong> Driver wants to browse all stations in Bole area.</p>
+                <div class="tags"><span class="tag">🎯 Method Overloading</span><span class="tag">🛡️ Input Validation</span><span class="tag">🔍 Zone Search</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>🎯 Overload #2: <code>searchFuel(String zone, FuelType fuelType)</code></h4>
+                <p><strong>Parameters:</strong> Zone + specific fuel type (enum).</p>
+                <p><strong>Returns:</strong> Stations that have that fuel available (calls <code>station.hasFuel(fuelType)</code>).</p>
+                <p><strong>Validation:</strong> Checks both parameters - zone and fuelType cannot be null.</p>
+                <p><strong>Use case:</strong> Driver: "Find Benzene stations in Megenagna".</p>
+                <p><strong>OOP Concept:</strong> This is the most commonly used overload for driver searches.</p>
+                <div class="tags"><span class="tag">🔍 Zone + Fuel Search</span><span class="tag">🎯 Business Logic</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>🎯 Overload #3: <code>searchFuel(FuelType fuelType, double minPrice, double maxPrice)</code></h4>
+                <p><strong>Parameters:</strong> Fuel type + price range (min to max).</p>
+                <p><strong>Validation:</strong> Ensures minPrice and maxPrice are non-negative and minPrice ≤ maxPrice.</p>
+                <p><strong>Filter logic:</strong> Checks if station has fuel AND fuel.isSellable() AND price within range.</p>
+                <p><strong>Use case:</strong> Budget driver: "Show me Diesel between 185-195 ETB per liter".</p>
+                <div class="tags"><span class="tag">💰 Price Range Search</span><span class="tag">🎯 Budget Filtering</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>🎯 Overload #4: <code>searchFuel(FuelType fuelType, double minQuantity)</code></h4>
+                <p><strong>Parameters:</strong> Fuel type + minimum liters needed.</p>
+                <p><strong>Validation:</strong> minQuantity cannot be negative.</p>
+                <p><strong>Filter logic:</strong> Checks fuel.isAvailable() AND fuel.getQuantity() >= minQuantity.</p>
+                <p><strong>Note:</strong> Uses <code>isAvailable()</code> not <code>isSellable()</code> - quantity >0 is already checked separately.</p>
+                <p><strong>Use case:</strong> Fleet manager: "Need 500L of Benzene for company vehicles".</p>
+                <div class="tags"><span class="tag">📊 Quantity Filter</span><span class="tag">🚛 Bulk Purchase</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>🎯 Overload #5: <code>searchFuelSortedbyPrice(String zone, FuelType fuelType)</code></h4>
+                <p><strong>Parameters:</strong> Zone + fuel type (like overload #2).</p>
+                <p><strong>Returns:</strong> Same stations as overload #2, BUT sorted by price ascending (cheapest first).</p>
+                <p><strong>Implementation:</strong> Line 115 reuses overload #2 (<code>searchFuel(zone, fuelType)</code>) - great example of DRY!</p>
+                <p><strong>Sorting logic:</strong> Uses <code>Comparator.comparingDouble()</code> with lambda expression.</p>
+                <p><strong>Edge case:</strong> If fuel is null, returns Double.MAX_VALUE (sorts to end).</p>
+                <p><strong>Use case:</strong> Driver wants cheapest fuel in a zone.</p>
+                <div class="tags"><span class="tag">📐 Sorting with Comparator</span><span class="tag">♻️ DRY Principle</span><span class="tag">💲 Cheapest First</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>🎯 Overload #6: <code>searchFuel()</code> - No parameters</h4>
+                <p><strong>Parameters:</strong> None.</p>
+                <p><strong>Returns:</strong> All stations that have ANY available fuel (any type).</p>
+                <p><strong>Method called:</strong> <code>station.hasAnyFuel()</code> - checks if at least one fuel type is sellable.</p>
+                <p><strong>Use case:</strong> Admin dashboard - quickly see which stations are operational.</p>
+                <div class="tags"><span class="tag">🏪 Operational Stations</span><span class="tag">📊 Dashboard View</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 6: STATION MANAGEMENT -->
+    <!-- ============================================================ -->
+    <div id="sec-mgmt" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>🏪</span> Station Management Methods</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">136</span><span class="line-text">    <span class="kw">public</span> <span class="type">GasStation</span> findStationById(<span class="type">String</span> stationId){</span></div>
+            <div class="code-line"><span class="line-num">137</span><span class="line-text">        <span class="kw">if</span> (stationId == <span class="kw">null</span> || stationId.trim().isEmpty()){</span></div>
+            <div class="code-line"><span class="line-num">138</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Station ID cannot be null or empty!"</span>);</span></div>
+            <div class="code-line"><span class="line-num">139</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">140</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">141</span><span class="line-text">            <span class="kw">if</span> (station.getId().equalsIgnoreCase(stationId.trim())){</span></div>
+            <div class="code-line"><span class="line-num">142</span><span class="line-text">                <span class="kw">return</span> station;</span></div>
+            <div class="code-line"><span class="line-num">143</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">144</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">145</span><span class="line-text">        <span class="kw">return</span> <span class="kw">null</span>;</span></div>
+            <div class="code-line"><span class="line-num">146</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">148</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; findStationByName(<span class="type">String</span> namePattern){</span></div>
+            <div class="code-line"><span class="line-num">149</span><span class="line-text">        <span class="kw">if</span> (namePattern == <span class="kw">null</span> || namePattern.trim().isEmpty()){</span></div>
+            <div class="code-line"><span class="line-num">150</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Name pattern cannot be null or empty"</span>);</span></div>
+            <div class="code-line"><span class="line-num">151</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">152</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; results = <span class="kw">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span></div>
+            <div class="code-line"><span class="line-num">153</span><span class="line-text">        <span class="type">String</span> pattern = namePattern.trim().toLowerCase();</span></div>
+            <div class="code-line"><span class="line-num">155</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">156</span><span class="line-text">            <span class="kw">if</span> (station.getName().toLowerCase().contains(pattern)){</span></div>
+            <div class="line-text">                results.add(station);</div>
+            <div class="code-line"><span class="line-num">158</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">159</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">160</span><span class="line-text">        <span class="kw">return</span> results;</span></div>
+            <div class="code-line"><span class="line-num">161</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">163</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; getStationsByZone(<span class="type">String</span> zone){</span></div>
+            <div class="code-line"><span class="line-num">164</span><span class="line-text">        <span class="kw">return</span> searchFuel(zone);</span></div>
+            <div class="code-line"><span class="line-num">165</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">167</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; getAllStations(){</span></div>
+            <div class="code-line"><span class="line-num">168</span><span class="line-text">        <span class="kw">return new</span> <span class="type">ArrayList</span>&lt;&gt;(stations);</span></div>
+            <div class="code-line"><span class="line-num">169</span><span class="line-text">    }</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📌 <code>findStationById(String stationId)</code> - Lines 136-146</h4>
+                <p><strong>Purpose:</strong> Locate a specific station by its unique ID (e.g., "ST001").</p>
+                <p><strong>Validation:</strong> Throws exception if stationId is null or empty.</p>
+                <p><strong>Case-insensitive:</strong> <code>.equalsIgnoreCase()</code> means "st001" works the same as "ST001".</p>
+                <p><strong>Return:</strong> GasStation object if found, <code>null</code> if not found (caller handles the null case).</p>
+                <p><strong>Time complexity:</strong> O(n) - linear search through all stations.</p>
+                <p><strong>Use case:</strong> Admin wants to edit a specific station by typing its ID.</p>
+                <div class="tags"><span class="tag">🔍 Lookup by ID</span><span class="tag">🛡️ Null Safety</span><span class="tag">📋 Primary Key Search</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 <code>findStationByName(String namePattern)</code> - Lines 148-161</h4>
+                <p><strong>Purpose:</strong> Find stations where the name contains a given text pattern.</p>
+                <p><strong>Partial match:</strong> Uses <code>.contains()</code> - typing "Total" finds "TotalEnergies Bole".</p>
+                <p><strong>Case-insensitive:</strong> Converts both station name AND search pattern to lowercase.</p>
+                <p><strong>Returns:</strong> List of matching stations (empty list if none found).</p>
+                <p><strong>Use case:</strong> Driver vaguely remembers station name: "Find stations with 'NOC' in name".</p>
+                <div class="tags"><span class="tag">🔍 Partial Text Search</span><span class="tag">📝 Fuzzy Matching</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 <code>getStationsByZone(String zone)</code> - Lines 163-165</h4>
+                <p><strong>Purpose:</strong> Convenience method - returns all stations in a zone.</p>
+                <p><strong>Implementation:</strong> Simply calls and returns <code>searchFuel(zone)</code> - perfect example of code reuse (DRY principle)!</p>
+                <p><strong>Why have this?</strong> Provides a more readable method name for zone-specific queries.</p>
+                <div class="tags"><span class="tag">♻️ Code Reuse</span><span class="tag">📋 DRY Principle</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📌 <code>getAllStations()</code> - Lines 167-169</h4>
+                <p><strong>Purpose:</strong> Returns a COPY of the stations list.</p>
+                <p><strong>Important:</strong> <code>new ArrayList&lt;&gt;(stations)</code> creates a new list - this protects encapsulation!</p>
+                <p><strong>Why copy?</strong> If we returned the original list directly, callers could modify our internal data without using our methods.</p>
+                <p><strong>Use case:</strong> Admin wants to see all stations in the system.</p>
+                <div class="tags"><span class="tag">🔒 Defensive Copy</span><span class="tag">🔐 Encapsulation Protection</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 7: INVENTORY METHODS -->
+    <!-- ============================================================ -->
+    <div id="sec-inv" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>📦</span> INVENTORY METHODS - 4 Versions (Including Overloads)</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">171</span><span class="line-text">    <span class="kw">public boolean</span> updateInventory(<span class="type">String</span> stationId, <span class="type">FuelType</span> fuelType, <span class="kw">double</span> quantity, <span class="kw">boolean</span> available){</span></div>
+            <div class="code-line"><span class="line-num">172</span><span class="line-text">        <span class="type">GasStation</span> station = findStationById(stationId);</span></div>
+            <div class="code-line"><span class="line-num">173</span><span class="line-text">        <span class="kw">if</span> (station == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">174</span><span class="line-text">            <span class="kw">return false</span>;</span></div>
+            <div class="code-line"><span class="line-num">175</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">176</span><span class="line-text">        <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">177</span><span class="line-text">        <span class="kw">if</span> (fuel == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">178</span><span class="line-text">            <span class="kw">return false</span>;</span></div>
+            <div class="code-line"><span class="line-num">179</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">180</span><span class="line-text">        station.updateFuelStatus(fuelType, quantity, available);</span></div>
+            <div class="code-line"><span class="line-num">181</span><span class="line-text">        <span class="kw">return true</span>;</span></div>
+            <div class="code-line"><span class="line-num">182</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">184</span><span class="line-text">    <span class="cmt">// METHOD OVERLOADING : Update only quantity</span></span></div>
+            <div class="code-line"><span class="line-num">185</span><span class="line-text">    <span class="kw">public boolean</span> updateFuelStatus(<span class="type">String</span> stationId, <span class="type">FuelType</span> fuelType, <span class="kw">double</span> quantity){</span></div>
+            <div class="code-line"><span class="line-num">186</span><span class="line-text">        <span class="type">GasStation</span> station = findStationById(stationId);</span></div>
+            <div class="code-line"><span class="line-num">187</span><span class="line-text">        <span class="kw">if</span> (station == <span class="kw">null</span>) {</span></div>
+            <div class="code-line"><span class="line-num">188</span><span class="line-text">            <span class="kw">return false</span>;</span></div>
+            <div class="code-line"><span class="line-num">189</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">191</span><span class="line-text">        <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">192</span><span class="line-text">        <span class="kw">if</span> (fuel == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">193</span><span class="line-text">            <span class="kw">return false</span>;</span></div>
+            <div class="code-line"><span class="line-num">194</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">195</span><span class="line-text">        <span class="kw">boolean</span> currentAvailability = fuel.isAvailable();</span></div>
+            <div class="code-line"><span class="line-num">196</span><span class="line-text">        station.updateFuelStatus(fuelType, quantity, currentAvailability);</span></div>
+            <div class="code-line"><span class="line-num">197</span><span class="line-text">        <span class="kw">return true</span>;</span></div>
+            <div class="code-line"><span class="line-num">198</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">200</span><span class="line-text">    <span class="cmt">// Update only price</span></span></div>
+            <div class="code-line"><span class="line-num">201</span><span class="line-text">    <span class="kw">public boolean</span> updateFuelPrice(<span class="type">String</span> stationId, <span class="type">FuelType</span> fuelType, <span class="kw">double</span> newPrice){</span></div>
+            <div class="code-line"><span class="line-num">202</span><span class="line-text">        <span class="type">GasStation</span> station = findStationById(stationId);</span></div>
+            <div class="code-line"><span class="line-num">203</span><span class="line-text">        <span class="kw">if</span> (station == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">204</span><span class="line-text">            <span class="kw">return false</span>;</span></div>
+            <div class="code-line"><span class="line-num">205</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">206</span><span class="line-text">        <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">207</span><span class="line-text">        <span class="kw">if</span> (fuel == <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">208</span><span class="line-text">            <span class="kw">return false</span>;</span></div>
+            <div class="code-line"><span class="line-num">209</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">210</span><span class="line-text">        fuel.setPricePerLiter(newPrice);</span></div>
+            <div class="code-line"><span class="line-num">211</span><span class="line-text">        <span class="kw">return true</span>;</span></div>
+            <div class="code-line"><span class="line-num">212</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">214</span><span class="line-text">    <span class="cmt">// Update price for all stations</span></span></div>
+            <div class="code-line"><span class="line-num">215</span><span class="line-text">    <span class="kw">public int</span> updateFuelPrice(<span class="type">FuelType</span> fuelType, <span class="kw">double</span> newPrice){</span></div>
+            <div class="code-line"><span class="line-num">216</span><span class="line-text">        <span class="kw">if</span> (newPrice <= 0){</span></div>
+            <div class="code-line"><span class="line-num">217</span><span class="line-text">            <span class="kw">throw new</span> <span class="type">IllegalArgumentException</span>(<span class="str">"Price must be positive"</span>);</span></div>
+            <div class="code-line"><span class="line-num">218</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">219</span><span class="line-text">        <span class="kw">int</span> updatedCount = 0;</span></div>
+            <div class="code-line"><span class="line-num">220</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">221</span><span class="line-text">            <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">222</span><span class="line-text">            <span class="kw">if</span> (fuel != <span class="kw">null</span>){</span></div>
+            <div class="code-line"><span class="line-num">223</span><span class="line-text">                fuel.setPricePerLiter(newPrice);</span></div>
+            <div class="code-line"><span class="line-num">224</span><span class="line-text">                updatedCount++;</span></div>
+            <div class="code-line"><span class="line-num">225</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">226</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">227</span><span class="line-text">        <span class="kw">return</span> updatedCount;</span></div>
+            <div class="code-line"><span class="line-num">228</span><span class="line-text">    }</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📦 Version 1: <code>updateInventory(stationId, fuelType, quantity, available)</code></h4>
+                <p><strong>Purpose:</strong> Full update - sets both quantity AND availability.</p>
+                <p><strong>Return type:</strong> <code>boolean</code> - true if successful, false if station or fuel type not found.</p>
+                <p><strong>Flow:</strong> Find station → Find fuel inventory → Call station.updateFuelStatus() → Return true/false.</p>
+                <p><strong>Use case:</strong> Admin completely updates a fuel's status (e.g., after maintenance, set available=false).</p>
+                <div class="tags"><span class="tag">📝 Full Update</span><span class="tag">✅ Boolean Return</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📦 Version 2 (Overload): <code>updateFuelStatus(stationId, fuelType, quantity)</code></h4>
+                <p><strong>Purpose:</strong> Update ONLY quantity - preserves current availability.</p>
+                <p><strong>Key line:</strong> Line 195 gets current availability before updating.</p>
+                <p><strong>Why overload?</strong> Admin might just want to restock without changing availability status.</p>
+                <p><strong>Use case:</strong> Tanker truck delivered 1000L of Diesel - just update quantity, keep availability as is.</p>
+                <div class="tags"><span class="tag">🔄 Partial Update</span><span class="tag">🎯 Method Overloading</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📦 Version 3: <code>updateFuelPrice(stationId, fuelType, newPrice)</code></h4>
+                <p><strong>Purpose:</strong> Update price for a SINGLE station's fuel type.</p>
+                <p><strong>Implementation:</strong> Directly calls <code>fuel.setPricePerLiter(newPrice)</code> on the FuelInventory object.</p>
+                <p><strong>Use case:</strong> Station owner wants to adjust price for competitive reasons.</p>
+                <div class="tags"><span class="tag">💰 Single Station Price</span><span class="tag">🎯 Targeted Update</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📦 Version 4 (Overload): <code>updateFuelPrice(fuelType, newPrice)</code></h4>
+                <p><strong>Purpose:</strong> Bulk update - change price for ALL stations that sell this fuel type.</p>
+                <p><strong>Return type:</strong> <code>int</code> (number of stations updated) - NOT boolean! This is different from version 3.</p>
+                <p><strong>Validation:</strong> Throws exception if newPrice ≤ 0.</p>
+                <p><strong>Use case:</strong> Government regulation - all stations must sell Benzene at 165 ETB.</p>
+                <div class="tags"><span class="tag">💰 Bulk Price Update</span><span class="tag">📊 Count Return</span><span class="tag">🎯 Mass Operation</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================================ -->
+    <!-- SECTION 8: STATISTICS METHODS -->
+    <!-- ============================================================ -->
+    <div id="sec-stats" class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <div class="section-title"><span>📊</span> Statistics & Utility Methods</div>
+            <span class="toggle">▼</span>
+        </div>
+        <div class="code-content">
+            <div class="code-line"><span class="line-num">230</span><span class="line-text">    <span class="kw">public double</span> getTotalAvailableQuantity(<span class="type">FuelType</span> fuelType){</span></div>
+            <div class="code-line"><span class="line-num">231</span><span class="line-text">        <span class="kw">double</span> total = 0;</span></div>
+            <div class="code-line"><span class="line-num">232</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations){</span></div>
+            <div class="code-line"><span class="line-num">233</span><span class="line-text">            <span class="type">FuelInventory</span> fuel = station.getInventory().get(fuelType);</span></div>
+            <div class="code-line"><span class="line-num">234</span><span class="line-text">            <span class="kw">if</span> (fuel != <span class="kw">null</span> && fuel.isSellable()){</span></div>
+            <div class="code-line"><span class="line-num">235</span><span class="line-text">                total += fuel.getQuantity();</span></div>
+            <div class="code-line"><span class="line-num">236</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">237</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">238</span><span class="line-text">        <span class="kw">return</span> total;</span></div>
+            <div class="code-line"><span class="line-num">239</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">241</span><span class="line-text">    <span class="cmt">// Find Station with lowest Price for a Fuel type</span></span></div>
+            <div class="code-line"><span class="line-num">242</span><span class="line-text">    <span class="kw">public</span> <span class="type">GasStation</span> findCheapestStation(<span class="type">FuelType</span> fuelType) {</span></div>
+            <div class="code-line"><span class="line-num">243</span><span class="line-text">        <span class="type">List</span>&lt;<span class="type">GasStation</span>&gt; stationsWithFuel = searchFuel(<span class="kw">null</span>, fuelType);</span></div>
+            <div class="code-line"><span class="line-num">244</span><span class="line-text">        <span class="kw">if</span> (stationsWithFuel.isEmpty()) {</span></div>
+            <div class="code-line"><span class="line-num">245</span><span class="line-text">            <span class="kw">return null</span>;</span></div>
+            <div class="code-line"><span class="line-num">246</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">248</span><span class="line-text">        <span class="kw">return</span> stationsWithFuel.stream()</span></div>
+            <div class="code-line"><span class="line-num">249</span><span class="line-text">                .min(<span class="type">Comparator</span>.comparingDouble(station -></span></div>
+            <div class="code-line"><span class="line-num">250</span><span class="line-text">                        station.getInventory().get(fuelType).getPricePerLiter()))</span></div>
+            <div class="code-line"><span class="line-num">251</span><span class="line-text">                .orElse(<span class="kw">null</span>);</span></div>
+            <div class="code-line"><span class="line-num">252</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">254</span><span class="line-text">    <span class="cmt">// Get all unique Zones</span></span></div>
+            <div class="code-line"><span class="line-num">255</span><span class="line-text">    <span class="kw">public</span> <span class="type">List</span>&lt;<span class="type">String</span>&gt; getAllZones() {</span></div>
+            <div class="code-line"><span class="line-num">256</span><span class="line-text">        <span class="kw">return</span> stations.stream()</span></div>
+            <div class="code-line"><span class="line-num">257</span><span class="line-text">                .map(<span class="type">GasStation</span>::getZone)</span></div>
+            <div class="code-line"><span class="line-num">258</span><span class="line-text">                .distinct()</span></div>
+            <div class="code-line"><span class="line-num">259</span><span class="line-text">                .collect(<span class="type">Collectors</span>.toList());</span></div>
+            <div class="code-line"><span class="line-num">260</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">262</span><span class="line-text">    <span class="cmt">// Display summary of all stations (For debugging / admin)</span></span></div>
+            <div class="code-line"><span class="line-num">263</span><span class="line-text">    <span class="kw">public void</span> printAllStations() {</span></div>
+            <div class="code-line"><span class="line-num">264</span><span class="line-text">        <span class="type">System</span>.out.println(<span class="str">"\n=== ALL STATIONS SUMMARY ==="</span>);</span></div>
+            <div class="code-line"><span class="line-num">265</span><span class="line-text">        <span class="kw">for</span> (<span class="type">GasStation</span> station : stations) {</span></div>
+            <div class="code-line"><span class="line-num">266</span><span class="line-text">            <span class="type">System</span>.out.println(station);</span></div>
+            <div class="code-line"><span class="line-num">267</span><span class="line-text">            <span class="type">System</span>.out.println(<span class="str">"  Inventory:"</span>);</span></div>
+            <div class="code-line"><span class="line-num">268</span><span class="line-text">            <span class="kw">for</span> (<span class="type">FuelType</span> type : <span class="type">FuelType</span>.values()) {</span></div>
+            <div class="code-line"><span class="line-num">269</span><span class="line-text">                <span class="type">FuelInventory</span> fuel = station.getInventory().get(type);</span></div>
+            <div class="code-line"><span class="line-num">270</span><span class="line-text">                <span class="kw">if</span> (fuel != <span class="kw">null</span>) {</span></div>
+            <div class="code-line"><span class="line-num">271</span><span class="line-text">                    <span class="type">System</span>.out.println(<span class="str">"    "</span> + fuel.getStatus());</span></div>
+            <div class="code-line"><span class="line-num">272</span><span class="line-text">                }</span></div>
+            <div class="code-line"><span class="line-num">273</span><span class="line-text">            }</span></div>
+            <div class="code-line"><span class="line-num">274</span><span class="line-text">            <span class="type">System</span>.out.println();</span></div>
+            <div class="code-line"><span class="line-num">275</span><span class="line-text">        }</span></div>
+            <div class="code-line"><span class="line-num">276</span><span class="line-text">    }</span></div>
+            <div class="code-line"><span class="line-num">277</span><span class="line-text">}</span></div>
+        </div>
+        <div class="explanation-content">
+            <div class="exp-card">
+                <h4>📊 <code>getTotalAvailableQuantity(FuelType fuelType)</code> - Lines 230-239</h4>
+                <p><strong>Purpose:</strong> Sums up all available fuel quantity across ALL stations.</p>
+                <p><strong>Condition:</strong> Only counts fuel that is <code>isSellable()</code> (available AND quantity > 0).</p>
+                <p><strong>Return:</strong> Total liters available nationwide for that fuel type.</p>
+                <p><strong>Use case:</strong> Government monitoring - how much Benzene is available in the country?</p>
+                <div class="tags"><span class="tag">📊 Aggregation</span><span class="tag">📈 National Statistics</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>💰 <code>findCheapestStation(FuelType fuelType)</code> - Lines 242-252</h4>
+                <p><strong>Purpose:</strong> Finds the station with the lowest price for a given fuel type.</p>
+                <p><strong>Implementation:</strong> Uses Java Stream API with <code>.min(Comparator.comparingDouble())</code>.</p>
+                <p><strong>Reuses:</strong> Calls <code>searchFuel(null, fuelType)</code> with null zone (searches all stations).</p>
+                <p><strong>Return:</strong> GasStation object, or null if no stations sell that fuel.</p>
+                <p><strong>Use case:</strong> Driver wants absolute cheapest fuel, regardless of distance.</p>
+                <div class="tags"><span class="tag">💰 Price Optimization</span><span class="tag">🔄 Stream API</span><span class="tag">📐 Comparator Pattern</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>📍 <code>getAllZones()</code> - Lines 255-260</h4>
+                <p><strong>Purpose:</strong> Returns a list of all unique zone names from all stations.</p>
+                <p><strong>Stream operations:</strong> .map() extracts zone → .distinct() removes duplicates → .collect() creates list.</p>
+                <p><strong>Why important:</strong> UI can dynamically populate zone dropdown instead of hardcoding "Bole", "Megenagna", etc.</p>
+                <p><strong>Use case:</strong> Driver selects zone from dropdown that shows ALL available zones.</p>
+                <div class="tags"><span class="tag">📍 Dynamic Zones</span><span class="tag">🔄 Stream API</span><span class="tag">🎯 UI Population</span></div>
+            </div>
+            <div class="exp-card">
+                <h4>🖨️ <code>printAllStations()</code> - Lines 263-276</h4>
+                <p><strong>Purpose:</strong> Debugging/admin method to print formatted summary of all stations.</p>
+                <p><strong>Output includes:</strong> Station info + each fuel's status (quantity, price, availability).</p>
+                <p><strong>Caller:</strong> Usually called from ConsoleMenu for admin debug view.</p>
+                <p><strong>Note:</strong> This breaks pure separation of concerns (service printing to console), but acceptable for debugging.</p>
+                <div class="tags"><span class="tag">🐛 Debugging</span><span class="tag">📋 Admin View</span><span class="tag">🖨️ Console Output</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p>📖 GasStationService.java - Complete Line-by-Line Explanation</p>
+        <p>🎯 OOP Concepts: Encapsulation | Method Overloading | DRY Principle | Defensive Programming</p>
+        <p>👨‍💻 Person A - Model & Service Layer Implementation | BITS College OOP Project</p>
+    </div>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const section = header.parentElement;
+        const codeDiv = section.querySelector('.code-content');
+        const explanationDiv = section.querySelector('.explanation-content');
+        
+        if (codeDiv) codeDiv.classList.toggle('active');
+        if (explanationDiv) explanationDiv.classList.toggle('active');
+        
+        const toggle = header.querySelector('.toggle');
+        if (toggle) toggle.textContent = codeDiv.classList.contains('active') ? '▲' : '▼';
+    }
+    
+    function scrollToSec(id) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Auto-open the section
+            const header = element.querySelector('.section-header');
+            if (header) {
+                const codeDiv = element.querySelector('.code-content');
+                const explanationDiv = element.querySelector('.explanation-content');
+                if (codeDiv && !codeDiv.classList.contains('active')) {
+                    codeDiv.classList.add('active');
+                    if (explanationDiv) explanationDiv.classList.add('active');
+                    const toggle = header.querySelector('.toggle');
+                    if (toggle) toggle.textContent = '▲';
+                }
+            }
+        }
+    }
+    
+    // Open first section by default
+    const firstSection = document.querySelector('.section');
+    if (firstSection) {
+        const header = firstSection.querySelector('.section-header');
+        if (header) {
+            const codeDiv = firstSection.querySelector('.code-content');
+            const explanationDiv = firstSection.querySelector('.explanation-content');
+            if (codeDiv) codeDiv.classList.add('active');
+            if (explanationDiv) explanationDiv.classList.add('active');
+        }
+    }
+</script>
+</body>
+</html>
