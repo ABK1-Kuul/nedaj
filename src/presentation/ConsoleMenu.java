@@ -8,6 +8,11 @@ import models.FuelInventory;
 import models.FuelType;
 import models.GasStation;
 import services.GasStationService;
+import services.search.CheapestFuelSearchStrategy;
+import services.search.NearestStationSearchStrategy;
+import services.search.SearchCriteria;
+import services.search.SearchStrategy;
+import services.search.ZoneSearchStrategy;
 
 public class ConsoleMenu {
     private final GasStationService service;
@@ -56,31 +61,90 @@ public class ConsoleMenu {
             return;
         }
 
-        List<GasStation> results = service.searchFuel(zone, fuelType);
+        SearchStrategy strategy = promptSearchStrategy();
+        SearchCriteria criteria = buildSearchCriteria(zone, fuelType, strategy);
+
+        List<GasStation> results = service.search(criteria, strategy);
 
         if (results.isEmpty()) {
             System.out.println("\nNo stations in \"" + zone + "\" currently have " + fuelType + " available.");
             return;
         }
 
-        System.out.println("\nStations with available " + fuelType + " in " + zone + ":");
+        System.out.printf("%n%s — available %s in %s:%n", strategyLabel(strategy), fuelType, zone);
         System.out.println("--------------------------------------------------");
 
         for (GasStation station : results) {
             FuelInventory fuel = station.getInventory().get(fuelType);
-            System.out.printf(
-                "%s | %s | Zone: %s | (%.1f, %.1f) | Line: %s | Price: %.2f ETB/L | Stock: %.0f L%n",
-                station.getId(),
-                station.getName(),
-                station.getZone(),
-                station.getX(),
-                station.getY(),
-                station.hasLine() ? "Yes" : "No",
-                fuel.getPrice(),
-                fuel.getQuantityLiters()
-            );
+            if (criteria.hasDriverLocation()) {
+                double distance = distanceFromDriver(station, criteria);
+                System.out.printf(
+                    "%s | %s | Zone: %s | (%.1f, %.1f) | Dist: %.2f | Line: %s | Price: %.2f ETB/L | Stock: %.0f L%n",
+                    station.getId(),
+                    station.getName(),
+                    station.getZone(),
+                    station.getX(),
+                    station.getY(),
+                    distance,
+                    station.hasLine() ? "Yes" : "No",
+                    fuel.getPrice(),
+                    fuel.getQuantityLiters()
+                );
+            } else {
+                System.out.printf(
+                    "%s | %s | Zone: %s | (%.1f, %.1f) | Line: %s | Price: %.2f ETB/L | Stock: %.0f L%n",
+                    station.getId(),
+                    station.getName(),
+                    station.getZone(),
+                    station.getX(),
+                    station.getY(),
+                    station.hasLine() ? "Yes" : "No",
+                    fuel.getPrice(),
+                    fuel.getQuantityLiters()
+                );
+            }
         }
         System.out.println("--------------------------------------------------");
+    }
+
+    private SearchStrategy promptSearchStrategy() {
+        System.out.println("\nHow do you want results ordered?");
+        System.out.println("1. By zone (default listing)");
+        System.out.println("2. Nearest station first (by your location)");
+        System.out.println("3. Cheapest price first");
+        int choice = readIntInRange("Enter choice: ", 1, 3);
+        return switch (choice) {
+            case 2 -> new NearestStationSearchStrategy();
+            case 3 -> new CheapestFuelSearchStrategy();
+            default -> new ZoneSearchStrategy();
+        };
+    }
+
+    private SearchCriteria buildSearchCriteria(String zone, FuelType fuelType, SearchStrategy strategy) {
+        if (strategy instanceof NearestStationSearchStrategy) {
+            System.out.print("Your location X: ");
+            double x = readPositiveDouble();
+            System.out.print("Your location Y: ");
+            double y = readPositiveDouble();
+            return new SearchCriteria(zone, fuelType, x, y);
+        }
+        return new SearchCriteria(zone, fuelType);
+    }
+
+    private String strategyLabel(SearchStrategy strategy) {
+        if (strategy instanceof NearestStationSearchStrategy) {
+            return "Nearest stations";
+        }
+        if (strategy instanceof CheapestFuelSearchStrategy) {
+            return "Cheapest fuel";
+        }
+        return "Stations";
+    }
+
+    private double distanceFromDriver(GasStation station, SearchCriteria criteria) {
+        double dx = station.getX() - criteria.getDriverX();
+        double dy = station.getY() - criteria.getDriverY();
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     private void adminMenu() {

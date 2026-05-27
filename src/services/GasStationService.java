@@ -8,6 +8,9 @@ import java.util.List;
 import models.FuelInventory;
 import models.FuelType;
 import models.GasStation;
+import services.search.SearchCriteria;
+import services.search.SearchStrategy;
+import services.search.ZoneSearchStrategy;
 
 public class GasStationService {
     private static final Path DEFAULT_DATA_PATH = Path.of("data", "stations.json");
@@ -74,17 +77,14 @@ public class GasStationService {
         stations.add(s4);
     }
 
-    public List<GasStation> searchFuel(String zone, FuelType fuelType) {
-        List<GasStation> results = new ArrayList<>();
+    /** Runs a search using the given strategy (polymorphism over {@link SearchStrategy}). */
+    public List<GasStation> search(SearchCriteria criteria, SearchStrategy strategy) {
+        return strategy.search(stations, criteria);
+    }
 
-        for (GasStation station : stations) {
-            if (station.getZone().equalsIgnoreCase(zone)
-                    && station.hasLine()
-                    && station.hasFuel(fuelType)) {
-                results.add(station);
-            }
-        }
-        return results;
+    /** Zone-only search; delegates to {@link ZoneSearchStrategy}. */
+    public List<GasStation> searchFuel(String zone, FuelType fuelType) {
+        return search(new SearchCriteria(zone, fuelType), new ZoneSearchStrategy());
     }
 
     public GasStation findStationById(String stationId) {
