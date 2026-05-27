@@ -20,6 +20,7 @@ Ever pulled into a gas station only to find they're out of benzene? Drove 15 min
 ├─────────────────────────────────────────────┤
 │           SERVICE LAYER                     │
 │   (GasStationService.java)                  │
+│   (search/* — Strategy pattern)             │
 │   • Business rules & filtering              │
 │   • Stock validation                        │
 │   • No UI code allowed here →               │
@@ -43,7 +44,7 @@ Ever pulled into a gas station only to find they're out of benzene? Drove 15 min
 # Clone & compile
 git clone https://github.com/ABK1-Kuul/nedaj.git
 cd nedaj
-javac src/models/*.java src/services/*.java src/presentation/*.java -d bin
+javac src/models/*.java src/services/*.java src/services/search/*.java src/presentation/*.java -d bin
 
 # Run it
 java -cp bin presentation.Main
@@ -55,11 +56,10 @@ java -cp bin presentation.Main
 ```
 → Select zone: Bole
 → Fuel type: BENZENE
-→ Results:
-   📍 Bole Total Station | 95 ETB/L | 1,200 L available
-   📍 Bole Shell       | 97 ETB/L | 850 L available
+→ Search mode: Nearest / Cheapest / Zone list
+→ Results (filtered + ordered by your choice)
 ```
-**Smart filtering** — Only stations with actual stock appear. No more wasted trips.
+**Smart filtering** — Only stations in the zone with a queue line and in-stock fuel appear. **Search strategies** let drivers sort by zone list, nearest station (Euclidean distance), or lowest price.
 
 ### 👨‍💼 Admin Controls
 ```
@@ -162,46 +162,46 @@ Run the app from the **project root** so `data/stations.json` resolves correctly
 ## 📊 Sample Data Flow
 
 ```
-Driver chooses "Bole" + "BENZENE"
+Driver chooses zone + fuel + search strategy
          ↓
-ConsoleMenu calls service.searchFuel("Bole", BENZENE)
+ConsoleMenu builds SearchCriteria + SearchStrategy
          ↓
-GasStationService loops through stations
+GasStationService.search(criteria, strategy)
          ↓
-Station.hasFuel(BENZENE) checks:
-   • Fuel exists in inventory?
-   • Available flag = true?
-   • Quantity > 0?
+AbstractSearchStrategy.applyCommonFilters (zone, hasLine, hasFuel)
          ↓
-Return filtered list → ConsoleMenu displays
+Concrete strategy sorts (nearest / cheapest) or returns as-is (zone)
+         ↓
+Return list → ConsoleMenu displays
 ```
 
-## Search logic: zones vs proximity
+## Search strategies (OOP: interface + inheritance)
 
-The driver search flow today filters by **text zone** (e.g. `Bole`, `Megenagna`) and fuel type, then lists matching stations. Each station also has grid coordinates \((x, y)\) in `data/stations.json` for proximity sorting (not wired in the CLI yet).
+Driver search uses the **Strategy pattern** under `src/services/search/`:
 
-### Euclidean distance
+| Class | Role |
+|-------|------|
+| `SearchStrategy` | Interface — `search(stations, criteria)` |
+| `AbstractSearchStrategy` | Abstract base — shared zone / line / fuel filters |
+| `ZoneSearchStrategy` | `extends` base — list matches in zone |
+| `NearestStationSearchStrategy` | `extends` base — sort by distance from driver \((x, y)\) |
+| `CheapestFuelSearchStrategy` | `extends` base — sort by lowest price per liter |
 
-If a driver is at \((x_1, y_1)\) and a gas station is at \((x_2, y_2)\), the straight-line distance is:
+`GasStationService.search(criteria, strategy)` accepts any `SearchStrategy`, so new strategies can be added without changing the service loop.
+
+### Euclidean distance (nearest mode)
+
+If a driver is at \((x_1, y_1)\) and a station is at \((x_2, y_2)\):
 
 \[
 d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
 \]
 
-After filtering to stations that have the requested fuel in stock, the service (or presentation layer) can **sort results by \(d\) in ascending order** so the nearest stations appear first.
-
-### Intended behavior (not implemented yet)
-
-1. Driver enters their position \((x_1, y_1)\) (and fuel type as today).
-2. Collect all stations with available stock for that fuel.
-3. For each station with coordinates \((x_2, y_2)\), compute \(d\) using the formula above.
-4. Return or display the list sorted by \(d\) from smallest to largest.
-
-Zone-based search can remain as a simpler mode; grid coordinates are an alternative when you want **proximity ordering** rather than only a named area match.
+`NearestStationSearchStrategy` applies the common filters, then sorts by \(d\) ascending.
 
 ## 🔧 Extension Points
 
-- **Proximity search** — Prompt for driver \((x, y)\) in the CLI and sort results by Euclidean distance (coordinates are already in JSON; see [Search logic: zones vs proximity](#search-logic-zones-vs-proximity))
+- **New search strategy** — e.g. highest stock: `extends AbstractSearchStrategy`, implement `search()`, plug into driver menu
 - **Admin authentication** — Simple password per station ID
 - **Add new zones** — Admin menu option (no hardcoding)
 - **Low stock alerts** — Notify when benzene < 500L
