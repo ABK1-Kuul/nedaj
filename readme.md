@@ -238,6 +238,31 @@ d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
 | **Polymorphism** | `CheapestFuelSearchStrategy.java` | 11-18 | `@Override` of `search()` method |
 | **Abstraction** | `SearchStrategy.java` | 9-11 | Interface defining contract |
 
+### RELATIONSHIP
+```
+GasStation ◄────────── contains ◄────────── FuelInventory
+
+GasStationService ◄────── manages ◄────── GasStation
+
+GasStationService ◄────── uses ◄────── SearchStrategy
+
+AbstractSearchStrategy ◄────── implements ◄────── SearchStrategy
+
+ZoneSearchStrategy ◄────── extends ◄────── AbstractSearchStrategy
+
+CheapestFuelSearchStrategy ◄────── extends ◄────── AbstractSearchStrategy
+
+NearestStationSearchStrategy ◄────── extends ◄────── AbstractSearchStrategy
+
+ConsoleMenu ◄────── uses ◄────── GasStationService
+
+StationJsonStore ◄────── used by ◄────── GasStationService
+
+Main ◄────── creates ◄────── ConsoleMenu
+
+Main ◄────── creates ◄────── GasStationService
+```
+
 ### Strategy Pattern (Bonus)
 
 - **Context:** `GasStationService.search()` - Line 23-25
