@@ -199,6 +199,39 @@ d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
 
 `NearestStationSearchStrategy` applies the common filters, then sorts by \(d\) ascending.
 
+## 📚 OOP Concepts Demonstrated
+
+### Four Pillars of OOP
+
+| Concept | Location | Line(s) | Description |
+|---------|----------|---------|-------------|
+| **Encapsulation** | `FuelInventory.java` | 4-6, 14-19 | Private fields with public getters/setters |
+| **Inheritance** | `ZoneSearchStrategy.java` | 7 | Extends `AbstractSearchStrategy` |
+| **Polymorphism** | `CheapestFuelSearchStrategy.java` | 11-18 | `@Override` of `search()` method |
+| **Abstraction** | `SearchStrategy.java` | 9-11 | Interface defining contract |
+
+### Strategy Pattern (Bonus)
+
+- **Context:** `GasStationService.search()` - Line 23-25
+- **Strategy Interface:** `SearchStrategy` - Line 9-11  
+- **Concrete Strategies:** `ZoneSearchStrategy`, `CheapestFuelSearchStrategy`, `NearestStationSearchStrategy`
+- **Client:** `ConsoleMenu` - Lines 35-57 (runtime strategy selection)
+
+### Constructor Features
+
+- **Overloading:** `SearchCriteria.java` - Lines 13-27 (3 constructors)
+- **Chaining:** `SearchCriteria.java` - Lines 14, 18, 21 (`this()` calls)
+- **Default:** `GasStationService.java` - Line 16 (chains to parameterized)
+
+### Access Modifiers
+
+| Modifier | Usage | Location |
+|----------|-------|----------|
+| `private` | Fields and utility constructor | `FuelInventory.java` line 4-6, `StationJsonStore.java` line 25 |
+| `protected` | Shared strategy methods | `AbstractSearchStrategy.java` line 13, 25 |
+| `public` | API methods | All service and model public methods |
+| `final` | Utility class | `StationJsonStore.java` line 19 |
+
 ## 🔧 Extension Points
 
 - **New search strategy** — e.g. highest stock: `extends AbstractSearchStrategy`, implement `search()`, plug into driver menu
