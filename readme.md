@@ -9,8 +9,9 @@ A production-ready Java console application for real-time fuel station inventory
 
 Ever pulled into a gas station only to find they're out of benzene? Drove 15 minutes for diesel that's "coming tomorrow"? **Nedaj** puts real-time fuel availability in drivers' hands and gives station managers a simple inventory control system.
 
-## Project Structure
+## 📁 Project Structure
 
+```
 nedaj/
 ├── src/
 │   ├── models/
@@ -33,7 +34,7 @@ nedaj/
 ├── data/
 │   └── stations.json (Persisted station data)
 └── README.md
-
+```
 ## 🏗️ Architecture That Scales
 
 ```
@@ -224,222 +225,7 @@ d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
 
 `NearestStationSearchStrategy` applies the common filters, then sorts by \(d\) ascending.
 
-## Class RealtionShip Diagram
 
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              NEDAJ GAS STATION - CLASS DIAGRAM                            │
-│                                      OOP Project                                          │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                      MODEL LAYER                                          │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-
-┌─────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────────┐
-│     «enum»          │     │     FuelInventory       │     │        GasStation           │
-│     FuelType        │     │─────────────────────────│     │─────────────────────────────│
-│─────────────────────│     │ - price: double         │     │ - id: String                 │
-│ BENZENE             │     │ - quantityLiters: double│     │ - name: String               │
-│ REGULAR             │     │ - isAvailable: boolean  │     │ - zone: String               │
-│ KEROSENE            │     │─────────────────────────│     │ - x: double                  │
-│─────────────────────│     │ + FuelInventory(price,  │     │ - y: double                  │
-│                     │     │   quantity, available)  │     │ - hasLine: boolean           │
-│                     │     │ + getPrice(): double    │     │ - inventory: Map<FuelType,   │
-│                     │     │ + setPrice(price): void │     │   FuelInventory>             │
-│                     │     │ + getQuantityLiters():  │     │─────────────────────────────│
-│                     │     │   double                │     │ + GasStation(id, name, zone, │
-│                     │     │ + setQuantityLiters(    │     │   x, y, hasLine)             │
-│                     │     │   quantity): void       │     │ + getId(): String            │
-│                     │     │ + isAvailable(): boolean│     │ + getName(): String          │
-│                     │     │ + setAvailable(available│     │ + getZone(): String          │
-│                     │     │   ): void               │     │ + getX(): double             │
-│                     │     │                         │     │ + getY(): double             │
-│                     │     │                         │     │ + hasLine(): boolean         │
-│                     │     │                         │     │ + setHasLine(hasLine): void  │
-│                     │     │                         │     │ + getInventory(): Map        │
-│                     │     │                         │     │ + addFuelInventory(type,     │
-│                     │     │                         │     │   fuelInventory): void       │
-│                     │     │                         │     │ + updateFuelStatus(type,     │
-│                     │     │                         │     │   quantity, available): void │
-│                     │     │                         │     │ + hasFuel(type): boolean     │
-└─────────────────────┘     └─────────────────────────┘     └─────────────────────────────┘
-         │                              ▲                                      ▲
-         │                              │                                      │
-         │                    ┌─────────┴──────────┐              ┌───────────┴──────────┐
-         │                    │ 1                  │ *            │ 1                    │ *
-         │                    ▼                    │              ▼                      │
-         │              ┌─────────────────────────┐│       ┌─────────────────────────────┐│
-         │              │    «contains»           ││       │      «contains»             ││
-         │              │   FuelInventory         ││       │        GasStation           ││
-         │              │   (in Map)              ││       │      (in List)              ││
-         │              └─────────────────────────┘│       └─────────────────────────────┘│
-         │                                          │                                      │
-         └──────────────────────────────────────────┴──────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                     SERVICE LAYER                                        │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-
-┌─────────────────────────────────────┐     ┌─────────────────────────────────────────────┐
-│       GasStationService             │     │           StationJsonStore                 │
-│─────────────────────────────────────│     │─────────────────────────────────────────────│
-│ - DEFAULT_DATA_PATH: Path           │     │ - STRING_FIELD: Pattern                    │
-│ - dataPath: Path                    │     │ - NUMBER_FIELD: Pattern                    │
-│ - stations: List<GasStation>        │     │─────────────────────────────────────────────│
-│─────────────────────────────────────│     │ - StationJsonStore() (private)             │
-│ + GasStationService()               │     │ + load(path): List<GasStation>             │
-│ + GasStationService(dataPath)       │     │ + save(path, stations): void               │
-│ + loadStations(): void              │     │ - toJson(stations): String                 │
-│ + saveStations(): void              │     │ - jsonString(value): String                │
-│ + seedMockData(): void              │     │ - parseYesNo(value): boolean               │
-│ + search(criteria, strategy):       │     │ - requireString(json, key): String         │
-│   List<GasStation>                  │     │ - requireNumber(json, key): double         │
-│ + findStationById(stationId):       │     │ - extractArrayContent(json, key): String   │
-│   GasStation                        │     │ - splitTopLevelObjects(content): List      │
-│ + updateInventory(stationId, type,  │     │ - findMatchingBracket(text, open): int     │
-│   quantity, available): boolean     │     │                                             │
-│─────────────────────────────────────│     │                                             │
-│         uses ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│     │                                             │
-│         Strategy Pattern            │     │                                             │
-└─────────────────────────────────────┘     └─────────────────────────────────────────────┘
-                    │                                              │
-                    │ uses                                         │ uses
-                    ▼                                              ▼
-            ┌───────────────┐                              ┌───────────────┐
-            │ «interface»   │                              │    models.*   │
-            │ SearchStrategy│                              │  (FuelType,   │
-            │───────────────│                              │   FuelInventory│
-            │ + search(     │                              │   GasStation)  │
-            │   stations,   │                              └───────────────┘
-            │   criteria):  │
-            │   List        │
-            └───────────────┘
-                    △
-                    │ implements
-        ┌───────────┼───────────┬─────────────────────┐
-        │           │           │                     │
-        ▼           ▼           ▼                     ▼
-┌───────────────┐ ┌─────────────────────┐ ┌─────────────────────────┐
-│ «abstract»    │ │  ZoneSearchStrategy │ │ CheapestFuelSearch      │
-│AbstractSearch │ │─────────────────────│ │ Strategy                 │
-│Strategy       │ │ + search(stations,  │ │─────────────────────────│
-│───────────────│ │   criteria): List   │ │ + search(stations,       │
-│ # applyCommon │ │                     │ │   criteria): List        │
-│   Filters():  │ │                     │ │                         │
-│   List        │ │                     │ │ ◆ sorts by price ASC    │
-│ # distanceFrom│ │                     │ │   (cheapest first)       │
-│   Driver():   │ │                     │ └─────────────────────────┘
-│   double      │ │                     │
-└───────────────┘ │                     │ ┌─────────────────────────┐
-        △         │                     │ │ NearestStationSearch    │
-        │         │                     │ │ Strategy                 │
-        │         │                     │ │─────────────────────────│
-        └─────────┴─────────────────────┘ │ + search(stations,       │
-                  extends                  │   criteria): List        │
-                                          │                         │
-                                          │ ◆ sorts by distance ASC │
-                                          │   (closest first)        │
-                                          └─────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   PRESENTATION LAYER                                     │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-
-┌─────────────────────────────┐     ┌─────────────────────────────────────────────────────┐
-│         ConsoleMenu         │     │                      Main                           │
-│─────────────────────────────│     │─────────────────────────────────────────────────────│
-│ - service: GasStationService│     │ + main(args: String[]): void                        │
-│ - scanner: Scanner          │     │─────────────────────────────────────────────────────│
-│─────────────────────────────│     │                                                     │
-│ + ConsoleMenu(service)      │     │ ◆ Creates GasStationService                         │
-│ + start(): void             │     │ ◆ Calls service.loadStations()                      │
-│ - printMainMenu(): void     │     │ ◆ Creates ConsoleMenu                               │
-│ - driverMenu(): void        │     │ ◆ Calls menu.start()                                │
-│ - adminMenu(): void         │     │                                                     │
-│ - displayInventory(station) │     │                                                     │
-│ - promptFuelType(): FuelType│     │                                                     │
-│ - readIntInRange(): int     │     │                                                     │
-│ - readPositiveDouble():     │     │                                                     │
-│   double                    │     │                                                     │
-│ - selectStrategy(choice):   │     │                                                     │
-│   SearchStrategy            │     │                                                     │
-└─────────────────────────────┘     └─────────────────────────────────────────────────────┘
-            │
-            │ uses
-            ▼
-    ┌───────────────┐
-    │  services.*   │
-    │ (GasStation   │
-    │  Service,     │
-    │  Search*)     │
-    └───────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              DATA TRANSFER OBJECT (DTO)                                  │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                         SearchCriteria (services.search)                                 │
-│─────────────────────────────────────────────────────────────────────────────────────────│
-│ - zone: String                                                                           │
-│ - fuelType: FuelType                                                                     │
-│ - driverX: double                                                                        │
-│ - driverY: double                                                                        │
-│ - driverLocationSet: boolean                                                             │
-│─────────────────────────────────────────────────────────────────────────────────────────│
-│ + SearchCriteria(zone, fuelType)                                                         │
-│ + SearchCriteria(zone, fuelType, driverX, driverY)                                       │
-│ - SearchCriteria(zone, fuelType, driverX, driverY, driverLocationSet)                    │
-│ + getZone(): String                                                                      │
-│ + getFuelType(): FuelType                                                                │
-│ + getDriverX(): double                                                                   │
-│ + getDriverY(): double                                                                   │
-│ + hasDriverLocation(): boolean                                                           │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    RELATIONSHIPS                                         │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-
-│ FuelType ◇────── FuelInventory : "FuelType used as key in Map"                          │
-│ FuelInventory ◇── GasStation     : "GasStation contains Map<FuelType, FuelInventory>"    │
-│ GasStation    ◆── GasStationService : "Service holds List<GasStation>"                   │
-│                                                                                          │
-│ SearchStrategy ◁── AbstractSearchStrategy : "implements"                                 │
-│ AbstractSearchStrategy ◁── ZoneSearchStrategy : "extends"                                │
-│ AbstractSearchStrategy ◁── CheapestFuelSearchStrategy : "extends"                        │
-│ AbstractSearchStrategy ◁── NearestStationSearchStrategy : "extends"                      │
-│                                                                                          │
-│ GasStationService ◆── SearchStrategy : "uses (strategy injection)"                       │
-│ ConsoleMenu ◆── GasStationService : "uses (dependency injection)"                        │
-│ ConsoleMenu ◆── SearchStrategy : "creates and selects"                                   │
-│                                                                                          │
-│ StationJsonStore ◆── GasStationService : "used for persistence"                          │
-│ StationJsonStore ◆── models.* : "parses JSON into model objects"                         │
-
-└─────────────────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    LEGEND                                                │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│   ◆━━━━━━◆   Association (uses/has)                                                     │
-│   ◇━━━━━━◇   Aggregation (has-a, weak)                                                  │
-│   ◆━━━━━━◆   Composition (has-a, strong, owns)                                          │
-│   ◁━━━━━━◇   Inheritance (extends)                                                      │
-│   ◁┅┅┅┅┅◇   Implementation (implements)                                                 │
-│                                                                                          │
-│   ┌─────┐   Class                                                                        │
-│   │     │                                                                                │
-│   └─────┘                                                                                │
-│                                                                                          │
-│   «interface»   Interface                                                                │
-│   «abstract»    Abstract Class                                                           │
-│   «enum»        Enumeration                                                              │
-│                                                                                          │
-│   - private     # protected    + public                                                  │
-│                                                                                          │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
 
 ## 📚 OOP Concepts Demonstrated
 
