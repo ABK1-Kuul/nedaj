@@ -175,19 +175,28 @@ Concrete strategy sorts (nearest / cheapest) or returns as-is (zone)
 Return list → ConsoleMenu displays
 ```
 
-## Search strategies (OOP: interface + inheritance)
+## OOP Concepts Demonstrated
 
-Driver search uses the **Strategy pattern** under `src/services/search/`:
+This project demonstrates core OOP concepts using the current package structure:
+
+| Concept | Where it appears in this project |
+|-------|------|
+| **Encapsulation** | `GasStation` and `FuelInventory` keep fields private and expose behavior through methods like `updateFuelStatus`, `hasFuel`, `setQuantityLiters`, and `setAvailable`. |
+| **Abstraction** | `SearchStrategy` defines a clean search contract (`search(stations, criteria)`) without exposing internal filtering/sorting details to callers. |
+| **Inheritance** | `AbstractSearchStrategy` provides shared filtering logic (`applyCommonFilters`) and reusable utilities (`distanceFromDriver`) for concrete strategies. |
+| **Polymorphism** | `GasStationService.search(criteria, strategy)` works with any `SearchStrategy` implementation (`ZoneSearchStrategy`, `NearestStationSearchStrategy`, `CheapestFuelSearchStrategy`). |
+| **Composition** | `GasStation` contains a `Map<FuelType, FuelInventory>`; `GasStationService` manages a `List<GasStation>` and uses `StationJsonStore` for persistence. |
+| **Strategy Pattern** | Search behavior is selected at runtime in `ConsoleMenu` and executed through interchangeable strategy classes under `src/services/search/`. |
+
+Current search strategy classes in `src/services/search/`:
 
 | Class | Role |
 |-------|------|
-| `SearchStrategy` | Interface — `search(stations, criteria)` |
-| `AbstractSearchStrategy` | Abstract base — shared zone / line / fuel filters |
-| `ZoneSearchStrategy` | `extends` base — list matches in zone |
-| `NearestStationSearchStrategy` | `extends` base — sort by distance from driver \((x, y)\) |
-| `CheapestFuelSearchStrategy` | `extends` base — sort by lowest price per liter |
-
-`GasStationService.search(criteria, strategy)` accepts any `SearchStrategy`, so new strategies can be added without changing the service loop.
+| `SearchStrategy` | Interface for driver search behavior |
+| `AbstractSearchStrategy` | Shared zone/line/fuel filtering base class |
+| `ZoneSearchStrategy` | Returns filtered results without additional ordering |
+| `NearestStationSearchStrategy` | Sorts filtered results by Euclidean distance |
+| `CheapestFuelSearchStrategy` | Sorts filtered results by fuel price |
 
 ### Euclidean distance (nearest mode)
 
