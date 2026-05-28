@@ -201,7 +201,7 @@ Concrete strategy sorts (nearest / cheapest) or returns as-is (zone)
 Return list → ConsoleMenu displays
 ```
 
-## OOP Concepts Demonstrated
+## 📚 OOP Concepts Demonstrated
 
 This project demonstrates core OOP concepts using the current package structure:
 
@@ -234,18 +234,6 @@ d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
 
 `NearestStationSearchStrategy` applies the common filters, then sorts by \(d\) ascending.
 
-
-
-## 📚 OOP Concepts Demonstrated
-
-### Four Pillars of OOP
-
-| Concept | Location | Line(s) | Description |
-|---------|----------|---------|-------------|
-| **Encapsulation** | `FuelInventory.java` | 4-6, 14-19 | Private fields with public getters/setters |
-| **Inheritance** | `ZoneSearchStrategy.java` | 7 | Extends `AbstractSearchStrategy` |
-| **Polymorphism** | `CheapestFuelSearchStrategy.java` | 11-18 | `@Override` of `search()` method |
-| **Abstraction** | `SearchStrategy.java` | 9-11 | Interface defining contract |
 
 ### RELATIONSHIP
 ```
