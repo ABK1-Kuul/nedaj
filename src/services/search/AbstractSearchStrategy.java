@@ -2,6 +2,7 @@ package services.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import models.GasStation;
 
@@ -12,6 +13,9 @@ import models.GasStation;
 public abstract class AbstractSearchStrategy implements SearchStrategy {
 
     protected List<GasStation> applyCommonFilters(List<GasStation> stations, SearchCriteria criteria) {
+        Objects.requireNonNull(stations, "stations must not be null");
+        Objects.requireNonNull(criteria, "criteria must not be null");
+
         List<GasStation> results = new ArrayList<>();
         for (GasStation station : stations) {
             if (station.getZone().equalsIgnoreCase(criteria.getZone())

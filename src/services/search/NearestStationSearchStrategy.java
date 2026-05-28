@@ -11,6 +11,10 @@ public class NearestStationSearchStrategy extends AbstractSearchStrategy {
 
     @Override
     public List<GasStation> search(List<GasStation> stations, SearchCriteria criteria) {
+        if (!criteria.hasDriverLocation()) {
+            throw new IllegalArgumentException(
+                    "Nearest station search requires driver coordinates (x, y).");
+        }
         List<GasStation> filtered = applyCommonFilters(stations, criteria);
         List<GasStation> sorted = new ArrayList<>(filtered);
         sorted.sort(Comparator.comparingDouble(s -> distanceFromDriver(s, criteria)));

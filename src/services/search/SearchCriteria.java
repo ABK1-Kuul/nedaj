@@ -1,5 +1,7 @@
 package services.search;
 
+import java.util.Objects;
+
 import models.FuelType;
 
 /** Input for a fuel station search (zone, fuel type, optional driver coordinates). */
@@ -19,8 +21,13 @@ public class SearchCriteria {
     }
 
     private SearchCriteria(String zone, FuelType fuelType, double driverX, double driverY, boolean driverLocationSet) {
-        this.zone = zone;
-        this.fuelType = fuelType;
+        String normalizedZone = Objects.requireNonNull(zone, "zone must not be null").trim();
+        if (normalizedZone.isEmpty()) {
+            throw new IllegalArgumentException("zone must not be blank");
+        }
+
+        this.zone = normalizedZone;
+        this.fuelType = Objects.requireNonNull(fuelType, "fuelType must not be null");
         this.driverX = driverX;
         this.driverY = driverY;
         this.driverLocationSet = driverLocationSet;
