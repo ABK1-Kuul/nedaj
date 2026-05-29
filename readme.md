@@ -70,10 +70,33 @@ nedaj/
 # Clone & compile
 git clone https://github.com/ABK1-Kuul/nedaj.git
 cd nedaj
-javac src/models/*.java src/services/*.java src/services/search/*.java src/presentation/*.java -d bin
+mvn compile
+java -cp target/classes presentation.Main
+```
 
-# Run it
+Or without Maven:
+
+```bash
+javac src/models/*.java src/services/*.java src/services/search/*.java src/presentation/*.java -d bin
 java -cp bin presentation.Main
+```
+
+## 🤖 Automated PR Review (GitHub Actions)
+
+Every pull request to `main` or `develop` runs the [PR Review Pipeline](.github/workflows/pr-review.yml):
+
+| Step | Tool | Fails the build when… |
+|------|------|------------------------|
+| Compile | Maven + Java 17 | Code does not compile |
+| Checkstyle | checkstyle.xml | Style or common Java issues |
+| Unit tests | JUnit 5 (18 tests) | Any test fails |
+| SpotBugs | Static analysis | Medium+ severity bugs |
+| PR comment | GitHub Actions bot | Posts pass/fail summary on the PR |
+
+Run the same checks locally before opening a PR:
+
+```bash
+mvn verify
 ```
 
 ## 🎮 Features That Matter

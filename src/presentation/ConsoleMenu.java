@@ -1,5 +1,6 @@
 package presentation;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class ConsoleMenu {
 
     public ConsoleMenu(GasStationService service) {
         this.service = service;
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
     }
 
     public void start() {

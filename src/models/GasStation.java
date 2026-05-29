@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class GasStation {
     }
 
     public Map<FuelType, FuelInventory> getInventory() {
-        return inventory;
+        return Collections.unmodifiableMap(inventory);
     }
 
     public void addFuelInventory(FuelType type, FuelInventory fuelInventory) {
