@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Validation failures in SearchCriteria constructors are intentional. -->
+    <Match>
+        <Class name="services.search.SearchCriteria"/>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+    <!-- Guarded by path.getParent() != null before createDirectories. -->
+    <Match>
+        <Class name="services.StationJsonStore"/>
+        <Method name="save"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
+    </Match>
+</FindBugsFilter>
