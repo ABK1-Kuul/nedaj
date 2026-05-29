@@ -159,25 +159,25 @@ Run the app from the **project root** so `data/stations.json` resolves correctly
 
 ### Day-by-Day Breakdown
 
-| Day | Person A (Model/Service) | Person B (CLI/UX) | Done? |
+| Day |  Bisrat Zenebe (Model/Service) | Abdselam Kedir (CLI/UX) | Done? |
 |-----|--------------------------|-------------------|-------|
 | **1** | Review architecture, document class relationships | Set up Git (feature branches), run app locally | ✅ |
 | **2** | Add validation to `FuelInventory` (no negative stock) | Create 6 more mock stations (add CMC, Summit zones) | |
 | **3** | Edge cases: null zone handling, fuel not found | Input validation loops, colored console output | |
 | **4** | Service method: update fuel price (admin feature) | Driver "view all fuels at station" feature | |
 | **5** | Write 10 test scenarios in README | UML class diagram + flowchart (Lucidchart/draw.io) | |
-| **6** | Code review Person B's PR, refactor duplicates | Code review Person A's PR, performance check | |
+| **6** | Code review Abdselam Kedir's PR, refactor duplicates | Code review Bisrat Zenebe's PR, performance check | |
 | **7** | Integration testing, bug fixes | Demo script + screen recording, final push | |
 
 ### 🎯 Ownership Strategy
 
-**Person A** (Backend focus)
+**Bisrat Zenebe** (Backend focus)
 - `GasStation.java` - Station data structure
 - `FuelInventory.java` - Stock business rules
 - `GasStationService.java` - All filtering logic
 - Unit test creation
 
-**Person B** (Frontend focus)  
+**Abdselam Kedir** (Frontend focus)  
 - `ConsoleMenu.java` - Menu flows & UX
 - `Main.java` - App entry point
 - `README.md` - Documentation & diagrams
@@ -313,6 +313,9 @@ This is a pair programming project. Rules:
 - No merging without the other person's approval
 
 ---
+## Project ssubmited by
+- Abdselam Kedir /002/26
+- Bisrat Zenebe /022/26
 
 *Java Project - Spring 2026*
 
